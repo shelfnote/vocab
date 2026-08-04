@@ -3,3995 +3,1334 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>語彙鑑定帖 — 語彙力診断テスト</title>
+<title>ことわざチャレンジ！</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ai: #165E83;        /* 藍色 */
-    --ai-deep: #0E3F58;
-    --sumi: #232323;      /* 墨 */
-    --kinari: #F5F0E6;    /* 生成り */
-    --kinari-dim: #EAE2D0;
-    --shu: #B23A2E;       /* 朱色（はんこ） */
-    --nezumi: #8C8577;    /* 鼠色 */
-    --line: rgba(35,35,35,0.14);
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background: var(--kinari);
-    background-image:
-      radial-gradient(rgba(35,35,35,0.035) 1px, transparent 1px);
-    background-size: 3px 3px;
-    color: var(--sumi);
-    font-family: "Noto Sans JP", sans-serif;
-    min-height: 100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding: 24px;
-  }
-  .book{
-    width: 100%;
-    max-width: 680px;
-    background: #FBF8F1;
-    border: 1px solid var(--line);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 20px 40px -20px rgba(20,30,40,0.35);
-    position: relative;
-    overflow: hidden;
-  }
-  .book::before{
-    content:"";
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width: 34px;
-    background: linear-gradient(90deg, rgba(35,35,35,0.06), transparent);
-  }
-  header.top{
-    padding: 28px 36px 20px 52px;
-    border-bottom: 1px solid var(--line);
-    display:flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-  .brand{
-    font-family:"Noto Serif JP", serif;
-    font-weight: 900;
-    font-size: 22px;
-    letter-spacing: 0.04em;
-    color: var(--ai-deep);
-  }
-  .brand small{
-    display:block;
-    font-family:"Noto Sans JP", sans-serif;
-    font-weight: 400;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    color: var(--nezumi);
-    margin-top: 4px;
-  }
-  .folio{
-    font-family:"Noto Serif JP", serif;
-    font-size: 13px;
-    color: var(--nezumi);
-    letter-spacing: 0.05em;
-  }
+:root{
+  --bg:#FFF6E9;
+  --card:#FFFFFF;
+  --ink:#3A3042;
+  --sub:#8B8296;
+  --sun:#FFC93C;
+  --sun-deep:#F0A400;
+  --sun-bg:#FFF3D2;
+  --coral:#FF6F59;
+  --coral-deep:#E5533C;
+  --coral-bg:#FFE7E1;
+  --sky:#29B6D8;
+  --sky-deep:#1D93B0;
+  --sky-bg:#E1F6FB;
+  --grass:#3DAA71;
+  --grass-deep:#2C8C5A;
+  --grass-bg:#E2F5EB;
+  --berry:#EF476F;
+  --berry-deep:#D42F55;
+  --berry-bg:#FDE3EA;
+  --line:rgba(58,48,66,0.12);
+  --shadow:0 14px 34px -14px rgba(58,48,66,0.32);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  min-height:100vh;
+  background:var(--bg);
+  font-family:'Zen Kaku Gothic New','Noto Sans JP',sans-serif;
+  color:var(--ink);
+  position:relative;
+  overflow-x:hidden;
+  padding:32px 16px 60px;
+}
+body::before, body::after{
+  content:"";
+  position:fixed;
+  border-radius:50%;
+  filter:blur(2px);
+  z-index:0;
+  opacity:0.5;
+}
+body::before{
+  width:340px;height:340px;
+  background:radial-gradient(circle at 30% 30%, var(--sun-bg), transparent 70%);
+  top:-120px; left:-120px;
+}
+body::after{
+  width:380px;height:380px;
+  background:radial-gradient(circle at 60% 60%, var(--sky-bg), transparent 70%);
+  bottom:-140px; right:-140px;
+}
+.wrap{
+  position:relative;
+  z-index:1;
+  max-width:640px;
+  margin:0 auto;
+}
+.brand{
+  text-align:center;
+  margin-bottom:20px;
+}
+.brand-title{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900;
+  font-size:28px;
+  color:var(--coral-deep);
+  letter-spacing:0.02em;
+  margin:0 0 4px;
+}
+.brand-sub{
+  font-size:13px;
+  color:var(--sub);
+  font-weight:500;
+  letter-spacing:0.04em;
+}
+.card{
+  background:var(--card);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:28px 26px 30px;
+  position:relative;
+}
+.screen{display:none;}
+.screen.active{display:block;animation:fadeUp .35s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-  main{ padding: 8px 40px 40px 56px; min-height: 420px; position:relative; }
+/* ---------- buttons ---------- */
+.btn{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:700;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  padding:14px 26px;
+  font-size:15px;
+  letter-spacing:0.02em;
+  transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn:active{transform:translateY(0);}
+.btn-primary{background:var(--coral); color:#fff; box-shadow:0 10px 20px -8px rgba(229,83,60,0.55);}
+.btn-primary:hover{filter:brightness(1.05);}
+.btn-warm{background:var(--sun); color:#5A3A00; box-shadow:0 10px 20px -8px rgba(240,164,0,0.5);}
+.btn-outline{background:#fff; color:var(--ink); border:2px solid var(--line);}
+.btn-outline:hover{border-color:var(--sky-deep); color:var(--sky-deep);}
+.btn-ghost{background:transparent; color:var(--sub); box-shadow:none; padding:10px 16px;}
+.btn-ghost:hover{color:var(--ink); transform:none;}
+.btn-block{width:100%;}
+.btn[disabled]{opacity:.35; cursor:default; transform:none;}
 
-  /* ---- Intro screen ---- */
-  .screen{ display:none; }
-  .screen.active{ display:block; animation: pageIn 0.5s ease; }
-  @keyframes pageIn{ from{ opacity:0; transform: translateY(6px);} to{opacity:1; transform:none;} }
+/* ---------- intro ---------- */
+.intro-fox{font-size:52px; text-align:center; margin-bottom:6px;}
+.intro-lead{
+  text-align:center;
+  font-size:15px;
+  line-height:1.9;
+  color:var(--ink);
+  margin:0 0 22px;
+}
+.intro-lead b{color:var(--coral-deep);}
+.level-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:14px;
+}
+.level-btn{
+  background:var(--card);
+  border:2px solid var(--line);
+  border-radius:20px;
+  padding:16px 12px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.level-btn:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+.level-btn .emoji{font-size:26px; display:block; margin-bottom:6px;}
+.level-btn .lv{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900; font-size:15px;
+}
+.level-btn .sub{font-size:11px; color:var(--sub); margin-top:2px;}
+.level-btn.lv1{border-color:transparent;}
+.level-btn.lv1:hover{border-color:var(--grass);}
+.level-btn.lv2:hover{border-color:var(--sun-deep);}
+.level-btn.lv3:hover{border-color:var(--berry);}
+.level-btn.mix{grid-column:1 / -1; background:linear-gradient(135deg, var(--sky-bg), var(--sun-bg));}
+.level-btn.mix:hover{border-color:var(--coral);}
+.intro-note{
+  background:var(--sky-bg);
+  border-radius:16px;
+  padding:14px 16px;
+  font-size:12.5px;
+  line-height:1.8;
+  color:#1D5A6B;
+  margin-top:18px;
+}
+.intro-footer{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-top:18px;
+}
+.intro-footer button{font-size:12.5px;}
 
-  #intro h1{
-    font-family:"Noto Serif JP", serif;
-    font-size: 26px;
-    line-height: 1.5;
-    margin: 22px 0 14px;
-    color: var(--sumi);
-  }
-  #intro p{
-    color:#4B463E;
-    font-size: 14.5px;
-    line-height: 1.9;
-    margin: 0 0 26px;
-  }
-  .rule{
-    height:1px;
-    background: linear-gradient(90deg, var(--sumi) 0, var(--sumi) 20px, var(--line) 20px);
-    margin: 22px 0;
-  }
-  .btn-group{
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .start-btn, .again-btn, .sub-btn, .danger-btn{
-    font-family:"Noto Serif JP", serif;
-    font-weight:700;
-    font-size:14px;
-    letter-spacing: 0.08em;
-    background: var(--ai);
-    color: var(--kinari);
-    border:none;
-    padding: 12px 20px;
-    cursor:pointer;
-    position:relative;
-    transition: background 0.15s ease, transform 0.1s ease;
-  }
-  .sub-btn{
-    background: transparent;
-    border: 1px solid var(--ai);
-    color: var(--ai-deep);
-  }
-  .danger-btn{
-    background: transparent;
-    border: 1px solid var(--shu);
-    color: var(--shu);
-  }
-  .start-btn:hover, .again-btn:hover{ background: var(--ai-deep); }
-  .sub-btn:hover{ background: rgba(22,94,131,0.08); }
-  .danger-btn:hover{ background: rgba(178,58,46,0.08); }
-  .start-btn:active, .again-btn:active, .sub-btn:active{ transform: translateY(1px); }
+/* ---------- quiz meta ---------- */
+.quiz-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.badge{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:700;
+  font-size:11.5px;
+  padding:5px 12px;
+  border-radius:999px;
+  letter-spacing:0.02em;
+}
+.tier-badge.tier-基礎{background:var(--grass-bg); color:var(--grass-deep);}
+.tier-badge.tier-標準{background:var(--sun-bg); color:#8A5A00;}
+.tier-badge.tier-上級{background:var(--berry-bg); color:var(--berry-deep);}
+.type-badge{background:var(--sky-bg); color:var(--sky-deep);}
+.q-count{font-size:12px; color:var(--sub); font-weight:700;}
 
-  /* ---- Admin / Manage screen ---- */
-  .admin-box{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .admin-box textarea{
-    width: 100%;
-    height: 100px;
-    font-family: monospace;
-    font-size: 12px;
-    padding: 10px;
-    border: 1px solid var(--line);
-    background: #fff;
-    color: var(--sumi);
-    resize: vertical;
-  }
-  .bank-stats{
-    font-size: 13px;
-    color: var(--nezumi);
-    margin-bottom: 12px;
-    background: var(--kinari-dim);
-    padding: 10px 14px;
-    border-left: 3px solid var(--ai);
-  }
-  
-  /* タブ切替 */
-  .admin-tabs{
-    display: flex;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 16px;
-  }
-  .tab-btn{
-    padding: 8px 16px;
-    font-family: "Noto Serif JP", serif;
-    font-size: 13px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--nezumi);
-    border-bottom: 2px solid transparent;
-  }
-  .tab-btn.active{
-    color: var(--ai-deep);
-    border-bottom-color: var(--ai);
-    font-weight: bold;
-  }
-  .tab-content{ display: none; }
-  .tab-content.active{ display: block; }
+.dots{display:flex; gap:5px; flex-wrap:wrap; margin-bottom:22px;}
+.dot{
+  width:10px; height:10px; border-radius:50%;
+  background:var(--line);
+  transition:transform .2s ease, background .2s ease;
+}
+.dot.current{transform:scale(1.5); background:var(--sun-deep);}
+.dot.correct{background:var(--grass);}
+.dot.wrong{background:var(--berry);}
 
-  /* 問題一覧リスト */
-  .question-list{
-    max-height: 280px;
-    overflow-y: auto;
-    border: 1px solid var(--line);
-    background: #fff;
-    margin-bottom: 12px;
-  }
-  .q-item{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--line);
-    font-size: 13px;
-  }
-  .q-item:last-child{ border-bottom: none; }
-  .q-item-info{ flex: 1; }
-  .q-item-title{ font-weight: bold; color: var(--sumi); }
-  .q-item-sub{ font-size: 11px; color: var(--nezumi); margin-top: 2px; }
-  .q-item-actions{ display: flex; gap: 6px; }
-  .action-btn{
-    padding: 4px 8px;
-    font-size: 11px;
-    border: 1px solid var(--line);
-    background: var(--kinari);
-    cursor: pointer;
-    border-radius: 2px;
-  }
-  .action-btn:hover{ background: var(--kinari-dim); }
+.q-prompt{
+  font-size:13px;
+  color:var(--sub);
+  font-weight:700;
+  margin:0 0 10px;
+}
+.headword{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900;
+  font-size:30px;
+  line-height:1.4;
+  color:var(--ink);
+  margin:0 0 8px;
+  word-break:keep-all;
+}
+.headword.scenario{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-weight:500;
+  font-size:16px;
+  line-height:1.9;
+  background:var(--sky-bg);
+  border-radius:18px;
+  padding:16px 18px;
+  position:relative;
+}
+.headword.scenario::before{
+  content:"🦊";
+  margin-right:8px;
+}
+.yomi{
+  font-size:13px;
+  color:var(--sky-deep);
+  font-weight:700;
+  margin:0 0 20px;
+}
 
-  /* モーダルダイアログ (編集用) */
-  .modal-overlay{
-    position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  .modal-overlay.active{ display: flex; }
-  .modal-card{
-    background: #FBF8F1;
-    width: 90%;
-    max-width: 500px;
-    padding: 24px;
-    border: 1px solid var(--line);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .form-group{
-    margin-bottom: 12px;
-  }
-  .form-group label{
-    display: block;
-    font-size: 12px;
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
-  .form-group input, .form-group select, .form-group textarea{
-    width: 100%;
-    padding: 8px;
-    font-size: 13px;
-    border: 1px solid var(--line);
-    background: #fff;
-  }
+.choices{display:flex; flex-direction:column; gap:10px; margin-bottom:6px;}
+.choice{
+  display:flex; align-items:center; gap:12px;
+  text-align:left;
+  background:var(--card);
+  border:2px solid var(--line);
+  border-radius:18px;
+  padding:13px 16px;
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:14.5px;
+  font-weight:500;
+  color:var(--ink);
+  cursor:pointer;
+  transition:transform .12s ease, border-color .12s ease, background .12s ease;
+}
+.choice:hover:not([disabled]){transform:translateY(-2px); border-color:var(--sky);}
+.choice .mark{
+  flex:0 0 auto;
+  width:26px; height:26px;
+  border-radius:50%;
+  background:var(--sky-bg);
+  color:var(--sky-deep);
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900;
+  font-size:12.5px;
+  display:flex; align-items:center; justify-content:center;
+}
+.choice .ctext{flex:1;}
+.choice[disabled]{cursor:default;}
+.choice.correct{background:var(--grass-bg); border-color:var(--grass);}
+.choice.correct .mark{background:var(--grass); color:#fff;}
+.choice.wrong{background:var(--berry-bg); border-color:var(--berry); opacity:.9;}
+.choice.wrong .mark{background:var(--berry); color:#fff;}
 
-  /* ---- Quiz screen ---- */
-  .meta-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:12px;
-    color: var(--nezumi);
-    letter-spacing:0.05em;
-    margin-bottom: 6px;
-  }
-  .tier-tag{
-    display:inline-block;
-    font-family:"Noto Serif JP",serif;
-    font-size:11px;
-    padding: 2px 9px;
-    border:1px solid var(--nezumi);
-    color: var(--ai-deep);
-    border-color: var(--ai);
-    letter-spacing:0.1em;
-  }
-  .progress-track{
-    height:2px;
-    background: var(--line);
-    margin: 10px 0 30px;
-    position:relative;
-  }
-  .progress-fill{
-    position:absolute; left:0; top:0; height:100%;
-    background: var(--ai);
-    transition: width 0.4s ease;
-  }
+.stamp{
+  position:absolute;
+  top:18px; right:22px;
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900;
+  font-size:14px;
+  padding:8px 16px;
+  border-radius:999px;
+  opacity:0;
+  transform:scale(.5) rotate(-10deg);
+  pointer-events:none;
+}
+.stamp.show{animation:stampIn .45s cubic-bezier(.34,1.56,.64,1) forwards;}
+.stamp.correct{background:var(--grass); color:#fff;}
+.stamp.wrong{background:var(--berry); color:#fff;}
+@keyframes stampIn{
+  0%{opacity:0; transform:scale(.4) rotate(-16deg);}
+  70%{opacity:1; transform:scale(1.12) rotate(6deg);}
+  100%{opacity:1; transform:scale(1) rotate(-4deg);}
+}
 
-  .headword{
-    font-family:"Noto Serif JP", serif;
-    font-weight:900;
-    font-size: 34px;
-    color: var(--sumi);
-    line-height:1.3;
-    margin: 4px 0 2px;
-  }
-  .yomi{
-    font-size: 13px;
-    color: var(--ai);
-    letter-spacing: 0.1em;
-    margin-bottom: 22px;
-    font-family: "Noto Sans JP", sans-serif;
-  }
-  .yomi.yomi-pending{
-    color: var(--nezumi);
-    font-style: italic;
-    letter-spacing: 0.05em;
-  }
-  .q-prompt{
-    font-size: 13.5px;
-    color: var(--nezumi);
-    margin-bottom: 18px;
-  }
+.explain{
+  display:none;
+  background:var(--sun-bg);
+  border-radius:16px;
+  padding:14px 16px;
+  font-size:13.5px;
+  line-height:1.9;
+  color:#5A3A00;
+  margin:14px 0 18px;
+}
+.explain.show{display:block; animation:fadeUp .3s ease;}
 
-  .choices{ display:flex; flex-direction:column; gap:0; }
-  .choice{
-    display:flex;
-    align-items:baseline;
-    gap: 14px;
-    padding: 15px 6px;
-    border-bottom: 1px solid var(--line);
-    background: transparent;
-    border-left:none; border-right:none; border-top:none;
-    text-align:left;
-    cursor:pointer;
-    font-family:"Noto Sans JP", sans-serif;
-    font-size: 15px;
-    color: var(--sumi);
-    transition: background 0.15s ease, padding-left 0.15s ease;
-    width:100%;
-  }
-  .choice:first-child{ border-top: 1px solid var(--line); }
-  .choice:hover{ background: rgba(22,94,131,0.05); padding-left: 14px; }
-  .choice .mark{
-    font-family:"Noto Serif JP", serif;
-    color: var(--ai);
-    font-weight:700;
-    font-size: 13px;
-    min-width: 16px;
-  }
-  .choice.correct{ background: rgba(178,58,46,0.08); }
-  .choice.correct .mark{ color: var(--shu); }
-  .choice.wrong{ background: rgba(35,35,35,0.05); opacity:0.6; }
-  .choice[disabled]{ cursor:default; }
-  .choice:hover[disabled]{ padding-left:6px; background:inherit;}
+.next-wrap{display:none; justify-content:flex-end;}
+.next-wrap.show{display:flex;}
 
-  .stamp{
-    position:absolute;
-    top: 60px; right: 30px;
-    width: 78px; height:78px;
-    border: 3px solid var(--shu);
-    border-radius: 4px;
-    color: var(--shu);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:"Noto Serif JP",serif;
-    font-weight:900;
-    font-size: 16px;
-    letter-spacing:0.1em;
-    transform: rotate(-14deg) scale(1.5);
-    opacity:0;
-    pointer-events:none;
-    writing-mode: vertical-rl;
-    padding: 4px;
-  }
-  .stamp.show{
-    animation: stampIn 0.45s cubic-bezier(.2,1.4,.5,1) forwards;
-  }
-  @keyframes stampIn{
-    0%{ opacity:0; transform: rotate(-14deg) scale(2.2); }
-    60%{ opacity:0.9; }
-    100%{ opacity:0.85; transform: rotate(-14deg) scale(1); }
-  }
+/* ---------- result ---------- */
+.rank-card{
+  text-align:center;
+  padding:6px 0 18px;
+  border-bottom:1px dashed var(--line);
+  margin-bottom:18px;
+}
+.rank-emoji{font-size:46px; margin-bottom:4px;}
+.rank-title{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900;
+  font-size:22px;
+  color:var(--coral-deep);
+  margin:0 0 10px;
+}
+.rank-pct{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900;
+  font-size:52px;
+  color:var(--sun-deep);
+  line-height:1;
+}
+.rank-score{font-size:13px; color:var(--sub); font-weight:700; margin:6px 0 12px;}
+.rank-desc{font-size:13.5px; line-height:1.85; color:var(--ink); max-width:440px; margin:0 auto;}
 
-  .next-row{ margin-top: 26px; min-height: 44px; }
-  .explain{
-    font-size: 13px;
-    color: #4B463E;
-    line-height:1.8;
-    background: var(--kinari-dim);
-    padding: 12px 16px;
-    border-left: 2px solid var(--ai);
-    margin-bottom: 16px;
-    display:none;
-  }
-  .explain.show{ display:block; animation: pageIn 0.3s ease; }
-  .next-btn{
-    font-family:"Noto Serif JP",serif;
-    font-weight:700;
-    background:none;
-    border: 1px solid var(--sumi);
-    color: var(--sumi);
-    padding: 10px 22px;
-    font-size:13px;
-    letter-spacing:0.1em;
-    cursor:pointer;
-    display:none;
-  }
-  .next-btn.show{ display:inline-block; }
-  .next-btn:hover{ background: var(--sumi); color: var(--kinari); }
-  .next-btn:focus-visible{
-    outline: 2px solid var(--ai);
-    outline-offset: 3px;
-  }
+.section-title{
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-weight:900;
+  font-size:14px;
+  color:var(--ink);
+  margin:0 0 10px;
+}
+.tier-rows{display:flex; flex-direction:column; gap:10px; margin-bottom:20px;}
+.tier-row{display:flex; align-items:center; gap:10px;}
+.tier-row .lbl{width:74px; font-size:12.5px; font-weight:700; flex:0 0 auto;}
+.tier-row .bar{flex:1; height:9px; background:var(--line); border-radius:999px; overflow:hidden;}
+.tier-row .bar-fill{height:100%; border-radius:999px; background:var(--sky);}
+.tier-row .num{width:52px; text-align:right; font-size:11.5px; color:var(--sub); flex:0 0 auto;}
 
-  /* ---- Result screen ---- */
-  #result .rank{
-    font-family:"Noto Serif JP", serif;
-    font-weight:900;
-    font-size: 15px;
-    color: var(--ai);
-    letter-spacing: 0.2em;
-    margin-top: 14px;
-  }
-  #result h1{
-    font-family:"Noto Serif JP", serif;
-    font-size: 40px;
-    margin: 10px 0 6px;
-    color: var(--sumi);
-  }
-  #result .score-line{
-    font-size: 14px;
-    color: var(--nezumi);
-    margin-bottom: 22px;
-  }
-  #result p.desc{
-    font-size:14.5px;
-    line-height:1.9;
-    color:#4B463E;
-    margin-bottom:26px;
-  }
-  .tier-breakdown{
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-    margin-bottom: 28px;
-  }
-  .tb-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-    padding: 8px 0;
-    border-bottom: 1px dotted var(--line);
-    color:#4B463E;
-  }
-  .tb-row b{ color: var(--sumi); font-family:"Noto Serif JP",serif; }
-  .missed-list{
-    font-size: 13px;
-    line-height:2;
-    color:#4B463E;
-    margin-bottom: 26px;
-  }
-  .missed-list .w{ color: var(--ai-deep); font-weight:700; }
+.skill-cols{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;}
+.skill-col{border-radius:16px; padding:14px 14px;}
+.skill-col.good{background:var(--grass-bg);}
+.skill-col.weak{background:var(--berry-bg);}
+.skill-col h4{margin:0 0 8px; font-size:12.5px; font-family:'Zen Maru Gothic',sans-serif;}
+.skill-col.good h4{color:var(--grass-deep);}
+.skill-col.weak h4{color:var(--berry-deep);}
+.skill-col ul{margin:0; padding-left:18px; font-size:12px; line-height:1.8;}
+.skill-col .empty{font-size:12px; color:var(--sub); padding-left:0; list-style:none;}
 
-  /* ---- 語彙年齢診断カード ---- */
-  .diag-card{
-    border: 1px solid var(--line);
-    background: var(--kinari-dim);
-    padding: 22px 24px;
-    margin-bottom: 28px;
-  }
-  .diag-grid{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    text-align:center;
-  }
-  .diag-label{
-    font-size: 11px;
-    color: var(--nezumi);
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-  }
-  .diag-value{
-    font-family:"Noto Serif JP", serif;
-    font-weight:900;
-    font-size: 25px;
-    color: var(--ai-deep);
-    line-height:1.2;
-  }
-  .diag-value.small{ font-size:17px; line-height:1.35; }
-  .diag-sub{
-    font-size: 10.5px;
-    color: var(--nezumi);
-    margin-top: 3px;
-    letter-spacing: 0.05em;
-  }
-  .diag-divider{
-    height:1px;
-    background: var(--line);
-    margin: 18px 0;
-  }
-  .diag-age-note{
-    font-size: 11.5px;
-    color: var(--nezumi);
-    text-align:center;
-    line-height:1.7;
-  }
-  .diag-age-note b{ color: var(--ai-deep); }
-  .skill-cols{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 20px;
-    padding-top: 18px;
-    border-top: 1px dotted var(--line);
-  }
-  .skill-col-title{
-    font-family:"Noto Serif JP", serif;
-    font-weight:700;
-    font-size: 12.5px;
-    margin-bottom: 8px;
-    letter-spacing:0.08em;
-  }
-  .skill-col-title.good{ color: var(--ai-deep); }
-  .skill-col-title.weak{ color: var(--shu); }
-  .skill-list{ font-size:13px; line-height:2; color:#4B463E; list-style:none; padding:0; margin:0; }
-  .skill-list li.good::before{ content:"✓ "; color:var(--ai); font-weight:700; }
-  .skill-list li.weak::before{ content:"・"; color:var(--shu); }
-  @media (max-width:480px){
-    .diag-grid{ grid-template-columns: 1fr; gap: 16px; }
-    .skill-cols{ grid-template-columns: 1fr; }
-  }
+.missed-list{display:flex; flex-direction:column; gap:8px; margin-bottom:22px; max-height:260px; overflow-y:auto;}
+.missed-item{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px 14px;
+}
+.missed-item .mp{font-family:'Zen Maru Gothic',sans-serif; font-weight:700; font-size:13.5px;}
+.missed-item .mm{font-size:12px; color:var(--sub); margin-top:2px;}
 
-  /* ---- History screen ---- */
-  .history-list{
-    max-height: 320px;
-    overflow-y: auto;
-    margin-bottom: 20px;
-  }
-  .history-card{
-    background: #fff;
-    border: 1px solid var(--line);
-    padding: 12px 16px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .history-date{ font-size: 11px; color: var(--nezumi); }
-  .history-title{ font-family: "Noto Serif JP", serif; font-weight: bold; font-size: 15px; color: var(--ai-deep); }
-  .history-score{ font-size: 13px; font-weight: bold; color: var(--sumi); }
+.result-actions{display:flex; flex-direction:column; gap:10px;}
+.result-sub-actions{display:flex; gap:10px;}
+.result-sub-actions .btn{flex:1;}
 
-  footer.foot{
-    text-align:center;
-    font-size: 11px;
-    color: var(--nezumi);
-    letter-spacing:0.1em;
-    padding: 14px 0 22px;
-  }
+/* ---------- history ---------- */
+.hist-item{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px 16px;
+  margin-bottom:10px;
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+}
+.hist-item .hl{font-size:12px; color:var(--sub);}
+.hist-item .hp{font-family:'Zen Maru Gothic',sans-serif; font-weight:900; font-size:20px; color:var(--coral-deep);}
+.empty-note{text-align:center; color:var(--sub); font-size:13px; padding:30px 0;}
 
-  @media (max-width: 480px){
-    header.top{ padding: 22px 20px 16px 34px; }
-    main{ padding: 8px 20px 32px 34px; }
-    .headword{ font-size: 26px; }
-    .stamp{ width:60px; height:60px; font-size:13px; top:50px; right:16px; }
-    .history-card{ flex-direction: column; align-items: flex-start; gap: 4px; }
-  }
+/* ---------- admin ---------- */
+.admin-tabs{display:flex; gap:8px; margin-bottom:16px;}
+.admin-tab{
+  flex:1; text-align:center; padding:10px; border-radius:14px;
+  font-family:'Zen Maru Gothic',sans-serif; font-weight:700; font-size:12.5px;
+  background:var(--bg); color:var(--sub); cursor:pointer; border:2px solid transparent;
+}
+.admin-tab.active{background:var(--coral-bg); color:var(--coral-deep); border-color:var(--coral);}
+.admin-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px;}
+.astat{background:var(--bg); border-radius:14px; padding:10px; text-align:center;}
+.astat b{display:block; font-family:'Zen Maru Gothic',sans-serif; font-size:18px; color:var(--coral-deep);}
+.astat span{font-size:10.5px; color:var(--sub);}
+.qlist{max-height:360px; overflow-y:auto; display:flex; flex-direction:column; gap:8px;}
+.qrow{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  border:1px solid var(--line); border-radius:14px; padding:10px 14px;
+}
+.qrow .qmeta{font-size:11px; color:var(--sub); margin-bottom:2px;}
+.qrow .qword{font-family:'Zen Maru Gothic',sans-serif; font-weight:700; font-size:13.5px;}
+.qrow .qbtns{display:flex; gap:6px;}
+.qrow .qbtns button{
+  border:none; background:var(--bg); border-radius:10px; padding:6px 10px; cursor:pointer; font-size:12px;
+}
+.qrow .qbtns button:hover{background:var(--line);}
+.field{margin-bottom:12px;}
+.field label{display:block; font-size:12px; font-weight:700; color:var(--sub); margin-bottom:5px;}
+.field input, .field select, .field textarea{
+  width:100%; padding:10px 12px; border-radius:12px; border:2px solid var(--line);
+  font-family:inherit; font-size:13.5px; color:var(--ink); background:#fff;
+}
+.field textarea{resize:vertical; min-height:56px;}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(58,48,66,0.45);
+  align-items:center; justify-content:center; z-index:50; padding:20px;
+}
+.modal-overlay.show{display:flex;}
+.modal-box{
+  background:#fff; border-radius:24px; padding:24px; max-width:480px; width:100%;
+  max-height:88vh; overflow-y:auto; box-shadow:var(--shadow);
+}
+.modal-box h3{font-family:'Zen Maru Gothic',sans-serif; margin:0 0 14px;}
+.modal-actions{display:flex; gap:10px; margin-top:16px;}
+.modal-actions .btn{flex:1;}
+.import-box textarea{width:100%; min-height:120px; border-radius:14px; border:2px solid var(--line); padding:12px; font-family:monospace; font-size:12px;}
+.top-nav{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+.top-nav h2{font-family:'Zen Maru Gothic',sans-serif; font-size:18px; margin:0;}
 
-  @media (prefers-reduced-motion: reduce){
-    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  }
+@media (max-width:420px){
+  .card{padding:22px 18px 24px;}
+  .headword{font-size:24px;}
+  .rank-pct{font-size:42px;}
+  .skill-cols{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <div class="brand">
+    <p class="brand-title">🦊 ことわざチャレンジ！</p>
+    <p class="brand-sub">中学生のための ことわざ道場</p>
+  </div>
+  <div class="card">
 
-<div class="book">
-  <header class="top">
-    <div class="brand">語彙鑑定帖<small>VOCABULARY DIAGNOSIS</small></div>
-    <div class="folio" id="folio">巻頭</div>
-  </header>
-
-  <main>
-
-    <!-- 表紙 -->
-    <section class="screen active" id="intro">
-      <h1>あなたの日常語彙、<br>どこまで通じますか。</h1>
-      <p>
-        全15問。難易度は「基礎」「標準」「上級」「至難」の4段階に分かれています。<br>
-        一語ずつ、意味の最も近い選択肢を選んでください。正解すると朱印が押されます。
+    <!-- ============ INTRO ============ -->
+    <section class="screen active" id="screen-intro">
+      <div class="intro-fox">📖🦊</div>
+      <p class="intro-lead">
+        きみの<b>ことわざ力</b>をチェックしよう！<br>
+        意味・穴埋め・使い方の3タイプで出題するよ。
       </p>
-      <div class="rule"></div>
-      <div class="btn-group">
-        <button class="start-btn" onclick="startQuiz()">診断をはじめる</button>
-        <button class="sub-btn" onclick="openHistory()">📜 診断履歴</button>
-        <button class="sub-btn" onclick="openAdmin()">⚙ 問題の管理</button>
+      <div class="level-grid">
+        <div class="level-btn lv1" onclick="startQuiz('基礎')">
+          <span class="emoji">🌱</span>
+          <span class="lv">きそ Lv.1</span>
+          <span class="sub">よく聞くことわざ</span>
+        </div>
+        <div class="level-btn lv2" onclick="startQuiz('標準')">
+          <span class="emoji">🌿</span>
+          <span class="lv">ひょうじゅん Lv.2</span>
+          <span class="sub">ちょっと手ごわい</span>
+        </div>
+        <div class="level-btn lv3" onclick="startQuiz('上級')">
+          <span class="emoji">🌳</span>
+          <span class="lv">じょうきゅう Lv.3</span>
+          <span class="sub">かなりの実力者向け</span>
+        </div>
+        <div class="level-btn mix" onclick="startQuiz('all')">
+          <span class="emoji">🎲</span>
+          <span class="lv">ミックス</span>
+          <span class="sub">全レベルからランダム15問</span>
+        </div>
+      </div>
+      <div class="intro-note">
+        💡 まちがえた問題は結果画面から「まちがえた問題だけ解きなおす」ボタンですぐに復習できるよ。慣用句・類義語・対義語・四字熟語バージョンも今後追加予定！
+      </div>
+      <div class="intro-footer">
+        <button class="btn btn-ghost" onclick="openHistory()">📜 きろくを見る</button>
+        <button class="btn btn-ghost" onclick="openAdmin()">⚙️ 問題管理</button>
       </div>
     </section>
 
-    <!-- 問題管理画面 -->
-    <section class="screen" id="admin">
-      <h2 style="font-family:'Noto Serif JP',serif; font-size:20px; margin-top:10px;">問題の管理・編集</h2>
-      <div class="bank-stats" id="bankStats">登録済み問題数: 0問</div>
+    <!-- ============ QUIZ ============ -->
+    <section class="screen" id="screen-quiz">
+      <div class="quiz-top">
+        <div style="display:flex; gap:6px;">
+          <span class="badge tier-badge" id="q-tier-badge"></span>
+          <span class="badge type-badge" id="q-type-badge"></span>
+        </div>
+        <span class="q-count" id="q-count"></span>
+      </div>
+      <div class="dots" id="q-dots"></div>
+      <p class="q-prompt" id="q-prompt"></p>
+      <p class="headword" id="q-headword"></p>
+      <p class="yomi" id="q-yomi"></p>
+      <div class="choices" id="q-choices"></div>
+      <div class="explain" id="q-explain"></div>
+      <div class="next-wrap" id="q-next-wrap">
+        <button class="btn btn-primary" onclick="nextQuestion()">つぎへ →</button>
+      </div>
+      <div class="stamp" id="q-stamp"></div>
+    </section>
 
+    <!-- ============ RESULT ============ -->
+    <section class="screen" id="screen-result">
+      <div class="rank-card">
+        <div class="rank-emoji" id="r-emoji"></div>
+        <p class="rank-title" id="r-title"></p>
+        <p class="rank-pct" id="r-pct"></p>
+        <p class="rank-score" id="r-score"></p>
+        <p class="rank-desc" id="r-desc"></p>
+      </div>
+
+      <p class="section-title">📊 レベルべつの正解率</p>
+      <div class="tier-rows" id="r-tier-rows"></div>
+
+      <p class="section-title">🎯 得意 / 苦手な問題タイプ</p>
+      <div class="skill-cols">
+        <div class="skill-col good"><h4>😊 得意</h4><ul id="r-good"></ul></div>
+        <div class="skill-col weak"><h4>🤔 もう少し</h4><ul id="r-weak"></ul></div>
+      </div>
+
+      <div id="r-missed-wrap">
+        <p class="section-title">✏️ まちがえたことわざ</p>
+        <div class="missed-list" id="r-missed"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn btn-warm btn-block" id="r-retry-btn" onclick="retryWrong()"></button>
+        <div class="result-sub-actions">
+          <button class="btn btn-primary" onclick="backToIntro()">🏠 さいしょから</button>
+          <button class="btn btn-outline" onclick="openHistory()">📜 きろく</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section class="screen" id="screen-history">
+      <div class="top-nav">
+        <h2>📜 チャレンジきろく</h2>
+        <button class="btn btn-ghost" onclick="backToIntro()">✕ 閉じる</button>
+      </div>
+      <div id="hist-list"></div>
+      <button class="btn btn-outline btn-block" style="margin-top:10px;" onclick="clearHistory()">きろくを全部消す</button>
+    </section>
+
+    <!-- ============ ADMIN ============ -->
+    <section class="screen" id="screen-admin">
+      <div class="top-nav">
+        <h2>⚙️ 問題管理</h2>
+        <button class="btn btn-ghost" onclick="backToIntro()">✕ 閉じる</button>
+      </div>
       <div class="admin-tabs">
-        <button class="tab-btn active" onclick="switchAdminTab('list')">問題一覧・個別編集</button>
-        <button class="tab-btn" onclick="switchAdminTab('import')">AI一括取り込み</button>
+        <div class="admin-tab active" id="tab-list" onclick="switchAdminTab('list')">一覧・編集</div>
+        <div class="admin-tab" id="tab-import" onclick="switchAdminTab('import')">追加・取り込み</div>
       </div>
 
-      <!-- タブ1: 問題一覧 -->
-      <div class="tab-content active" id="tabList">
-        <div class="btn-group" style="margin-bottom: 12px;">
-          <button class="start-btn" style="padding: 6px 12px; font-size:12px;" onclick="openEditModal(-1)">＋ 新しい問題を追加</button>
-          <button class="sub-btn" style="padding: 6px 12px; font-size:12px;" onclick="exportQuestions()">📥 問題をJSONで保存</button>
-          <button class="danger-btn" style="padding: 6px 12px; font-size:12px;" onclick="resetDefaultQuestions()">初期状態に戻す</button>
+      <div id="admin-pane-list">
+        <div class="admin-stats" id="admin-stats"></div>
+        <div class="qlist" id="admin-qlist"></div>
+      </div>
+
+      <div id="admin-pane-import" style="display:none;">
+        <div class="field">
+          <label>難易度</label>
+          <select id="new-tier">
+            <option value="基礎">基礎（Lv.1）</option>
+            <option value="標準">標準（Lv.2）</option>
+            <option value="上級">上級（Lv.3）</option>
+          </select>
         </div>
-        <div class="question-list" id="questionList"></div>
-      </div>
-
-      <!-- タブ2: JSON一括読み込み -->
-      <div class="tab-content" id="tabImport">
-        <div class="admin-box">
-          <label style="font-size:12px; font-weight:bold;">AIが生成したJSONコードを貼り付け:</label>
-          <textarea id="jsonInput" placeholder="[{ &quot;tier&quot;: &quot;基礎&quot;, &quot;word&quot;: &quot;...&quot; }]"></textarea>
-          <button class="start-btn" style="padding:10px;" onclick="addQuestionsFromJSON()">取り込む</button>
+        <div class="field">
+          <label>問題タイプ</label>
+          <select id="new-qtype" onchange="toggleNewFields()">
+            <option value="meaning">意味（ことわざ→意味を選ぶ）</option>
+            <option value="fill">穴埋め（空欄に入る言葉を選ぶ）</option>
+            <option value="usage">使い方（場面からことわざを選ぶ）</option>
+          </select>
         </div>
-      </div>
-
-      <div class="rule"></div>
-      <button class="sub-btn" onclick="restart()">表紙へ戻る</button>
-    </section>
-
-    <!-- 診断履歴画面 -->
-    <section class="screen" id="history">
-      <h2 style="font-family:'Noto Serif JP',serif; font-size:20px; margin-top:10px;">診断履歴・成長記録</h2>
-      <p style="font-size:13px; color:var(--nezumi); margin-bottom:16px;">過去の鑑定結果の記録です。</p>
-
-      <div class="history-list" id="historyList"></div>
-
-      <div class="btn-group">
-        <button class="sub-btn" onclick="restart()">表紙へ戻る</button>
-        <button class="danger-btn" onclick="clearHistory()">履歴を消去</button>
-      </div>
-    </section>
-
-    <!-- 出題画面 -->
-    <section class="screen" id="quiz">
-      <div class="meta-row">
-        <span class="tier-tag" id="tierTag">基礎</span>
-        <span id="qCount">問1 / 15</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-
-      <div class="q-prompt" id="qPrompt">次の言葉の意味に最も近いものを選んでください。</div>
-      <div class="headword" id="headword">杞憂</div>
-      <div class="yomi" id="yomi">きゆう</div>
-
-      <div class="choices" id="choices"></div>
-
-      <div class="explain" id="explain"></div>
-      <div class="next-row">
-        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">次の言葉へ →</button>
-      </div>
-
-      <div class="stamp" id="stamp">認</div>
-    </section>
-
-    <!-- 結果画面 -->
-    <section class="screen" id="result">
-      <div class="rank" id="rankLabel">鑑定結果</div>
-      <h1 id="rankTitle">—</h1>
-      <div class="score-line" id="scoreLine"></div>
-      <p class="desc" id="rankDesc"></p>
-
-      <div class="diag-card" id="diagCard">
-        <div class="diag-grid">
-          <div class="diag-item">
-            <div class="diag-label">推定語彙年齢</div>
-            <div class="diag-value small" id="diagAge">—</div>
-          </div>
-          <div class="diag-item">
-            <div class="diag-label">語彙偏差値</div>
-            <div class="diag-value" id="diagHensachi">—</div>
-          </div>
-          <div class="diag-item">
-            <div class="diag-label">推定語彙数</div>
-            <div class="diag-value small" id="diagVocabCount">—</div>
-            <div class="diag-sub">（推定）</div>
-          </div>
+        <div class="field">
+          <label>ことわざ（正式な形）</label>
+          <input type="text" id="new-proverb" placeholder="例）猿も木から落ちる">
         </div>
-        <div class="diag-divider"></div>
-        <div class="diag-age-note">※推定語彙年齢は、テスト結果をもとにした目安です。実際の年齢や知能を示すものではありません。</div>
-
-        <div class="skill-cols" id="skillCols">
-          <div>
-            <div class="skill-col-title good">得意</div>
-            <ul class="skill-list" id="skillGood"></ul>
-          </div>
-          <div>
-            <div class="skill-col-title weak">苦手</div>
-            <ul class="skill-list" id="skillWeak"></ul>
-          </div>
+        <div class="field">
+          <label>読みがな（任意）</label>
+          <input type="text" id="new-reading" placeholder="例）さるもきからおちる">
         </div>
-      </div>
+        <div class="field">
+          <label>出題文（意味＝ことわざそのもの／穴埋め＝空欄入り／使い方＝場面の説明）</label>
+          <textarea id="new-display" placeholder="例）猿も（　）から落ちる　／　テストが近いのに…この場面にぴったりのことわざは？"></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>選択肢A</label><input type="text" id="new-c0"></div>
+          <div class="field"><label>選択肢B</label><input type="text" id="new-c1"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>選択肢C</label><input type="text" id="new-c2"></div>
+          <div class="field"><label>選択肢D</label><input type="text" id="new-c3"></div>
+        </div>
+        <div class="field">
+          <label>正解</label>
+          <select id="new-answer">
+            <option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>解説</label>
+          <textarea id="new-explain" placeholder="このことわざの解説を書こう"></textarea>
+        </div>
+        <div class="field">
+          <label>意味（一覧表示・結果画面用の短い要約）</label>
+          <input type="text" id="new-meaning" placeholder="例）名人でも失敗することがある">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="addNewQuestion()">＋ この問題を追加する</button>
 
-      <div class="tier-breakdown" id="tierBreakdown"></div>
-
-      <div id="missedWrap">
-        <div class="q-prompt">見直しておきたい言葉</div>
-        <div class="missed-list" id="missedList"></div>
-      </div>
-
-      <div class="rule"></div>
-      <div class="btn-group">
-        <button class="again-btn" onclick="restart()">もう一度診断する</button>
-        <button class="sub-btn" onclick="openHistory()">📜 診断履歴を見る</button>
+        <div class="import-box" style="margin-top:24px;">
+          <p class="section-title">📥 JSONで一括取り込み</p>
+          <textarea id="import-json" placeholder='[{"tier":"基礎","qtype":"meaning","proverb":"...","reading":"...","display":"...","choices":["","","",""],"answer":0,"explain":"...","meaningShort":"..."}]'></textarea>
+          <button class="btn btn-outline btn-block" style="margin-top:8px;" onclick="importQuestionsJSON()">取り込む</button>
+        </div>
+        <div class="field-row" style="margin-top:24px;">
+          <button class="btn btn-outline" onclick="exportQuestionsJSON()">📤 全問題をJSON出力</button>
+          <button class="btn btn-outline" onclick="resetDefaultQuestions()">🔄 初期状態にもどす</button>
+        </div>
       </div>
     </section>
 
-  </main>
-
-  <footer class="foot">語彙鑑定帖 — 語彙力診断テスト</footer>
+  </div>
 </div>
 
-<!-- モーダルダイアログ（問題の個別追加・編集） -->
-<div class="modal-overlay" id="editModal">
-  <div class="modal-card">
-    <h3 style="font-family:'Noto Serif JP',serif; margin-top:0;" id="modalTitle">問題を編集</h3>
-    <input type="hidden" id="editIndex" value="-1">
-    
-    <div class="form-group">
+<!-- ============ EDIT MODAL ============ -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <h3>問題を編集</h3>
+    <div class="field">
       <label>難易度</label>
-      <select id="editTier">
-        <option value="基礎">基礎</option>
-        <option value="標準">標準</option>
-        <option value="上級">上級</option>
-        <option value="至難">至難</option>
+      <select id="edit-tier">
+        <option value="基礎">基礎（Lv.1）</option>
+        <option value="標準">標準（Lv.2）</option>
+        <option value="上級">上級（Lv.3）</option>
       </select>
     </div>
-
-    <div class="form-group">
-      <label>分類</label>
-      <select id="editCategory">
-        <option value="意味">意味</option>
-        <option value="慣用句">慣用句</option>
-        <option value="四字熟語">四字熟語</option>
-        <option value="対義語">対義語</option>
-        <option value="難読語">難読語</option>
+    <div class="field">
+      <label>問題タイプ</label>
+      <select id="edit-qtype">
+        <option value="meaning">意味</option>
+        <option value="fill">穴埋め</option>
+        <option value="usage">使い方</option>
       </select>
     </div>
-    
-    <div class="form-group">
-      <label>見出し語</label>
-      <input type="text" id="editWord" placeholder="例: 杞憂">
+    <div class="field"><label>ことわざ</label><input type="text" id="edit-proverb"></div>
+    <div class="field"><label>読みがな</label><input type="text" id="edit-reading"></div>
+    <div class="field"><label>出題文</label><textarea id="edit-display"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>選択肢A</label><input type="text" id="edit-c0"></div>
+      <div class="field"><label>選択肢B</label><input type="text" id="edit-c1"></div>
     </div>
-
-    <div class="form-group">
-      <label>読み</label>
-      <input type="text" id="editYomi" placeholder="例: きゆう">
+    <div class="field-row">
+      <div class="field"><label>選択肢C</label><input type="text" id="edit-c2"></div>
+      <div class="field"><label>選択肢D</label><input type="text" id="edit-c3"></div>
     </div>
-
-    <div class="form-group">
-      <label>選択肢 (4つ)</label>
-      <input type="text" id="editChoice0" placeholder="選択肢 A (正解)" style="margin-bottom:4px;">
-      <input type="text" id="editChoice1" placeholder="選択肢 B" style="margin-bottom:4px;">
-      <input type="text" id="editChoice2" placeholder="選択肢 C" style="margin-bottom:4px;">
-      <input type="text" id="editChoice3" placeholder="選択肢 D">
+    <div class="field">
+      <label>正解</label>
+      <select id="edit-answer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
     </div>
-
-    <div class="form-group">
-      <label>正解の番号</label>
-      <select id="editAnswer">
-        <option value="0">選択肢 A</option>
-        <option value="1">選択肢 B</option>
-        <option value="2">選択肢 C</option>
-        <option value="3">選択肢 D</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>解説</label>
-      <textarea id="editExplain" rows="2" placeholder="簡単な解説を入力"></textarea>
-    </div>
-
-    <div class="btn-group" style="justify-content: flex-end; margin-top: 16px;">
-      <button class="sub-btn" onclick="closeEditModal()">キャンセル</button>
-      <button class="start-btn" onclick="saveQuestionEdit()">保存する</button>
+    <div class="field"><label>解説</label><textarea id="edit-explain"></textarea></div>
+    <div class="field"><label>意味（短い要約）</label><input type="text" id="edit-meaning"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeEditModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="saveQuestionEdit()">保存する</button>
     </div>
   </div>
 </div>
 
 <script>
-// デフォルト問題データ
-const DEFAULT_QUESTIONS = [
-{
-    "tier": "基礎",
-    "category": "意味",
-    "word": "曖昧",
-    "yomi": "あいまい",
-    "choices": [
-      "はっきりしないこと",
-      "非常に明快なこと",
-      "激しく怒ること",
-      "素早く動くこと"
-    ],
-    "answer": 0,
-    "explain": "「曖昧」ははっきりせず、どちらともつかない状態を表します。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "遠慮",
-    "yomi": "えんりょ",
-    "choices": [
-      "強く主張すること",
-      "控えめにすること",
-      "無視すること",
-      "急に驚くこと"
-    ],
-    "answer": 1,
-    "explain": "「遠慮」は自分を抑え、控えめに振る舞うことです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "陳腐",
-    "yomi": "ちんぷ",
-    "choices": [
-      "古臭くありふれていること",
-      "非常に新しいこと",
-      "高級であること",
-      "難解であること"
-    ],
-    "answer": 0,
-    "explain": "「陳腐」はありふれていて新鮮さがないことを指します。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "憶測",
-    "yomi": "おくそく",
-    "choices": [
-      "確かな証拠に基づく判断",
-      "根拠のない推測",
-      "公式な発表",
-      "過去の記録"
-    ],
-    "answer": 1,
-    "explain": "「憶測」は確証がないまま推し量ることです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "譲歩",
-    "yomi": "じょうほ",
-    "choices": [
-      "自分の意見を通し切ること",
-      "折れて相手に歩み寄ること",
-      "相手を無視すること",
-      "議論を打ち切ること"
-    ],
-    "answer": 1,
-    "explain": "「譲歩」は自分の主張を一部抑え、相手に歩み寄ることです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "円滑",
-    "yomi": "えんかつ",
-    "choices": [
-      "滞りなく物事が進むこと",
-      "激しくぶつかり合うこと",
-      "複雑で分かりにくいこと",
-      "一時的に止まること"
-    ],
-    "answer": 0,
-    "explain": "「円滑」はスムーズに、支障なく進む様子を表します。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "寛容",
-    "yomi": "かんよう",
-    "choices": [
-      "心が広く人を受け入れること",
-      "規則に厳格なこと",
-      "警戒して疑うこと",
-      "素早く決断すること"
-    ],
-    "answer": 0,
-    "explain": "「寛容」は他人の言動を広い心で受け入れることです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "素朴",
-    "yomi": "そぼく",
-    "choices": [
-      "飾り気がなく自然なこと",
-      "華やかで洗練されていること",
-      "複雑で分かりにくいこと",
-      "高価で貴重なこと"
-    ],
-    "answer": 0,
-    "explain": "「素朴」は飾り気がなく、ありのままである様子です。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "辟易",
-    "yomi": "へきえき",
-    "choices": [
-      "感動してしまうこと",
-      "うんざりして嫌気がさすこと",
-      "強く期待すること",
-      "冷静に分析すること"
-    ],
-    "answer": 1,
-    "explain": "「辟易する」は、同じことの繰り返しなどにうんざりする様子です。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "杜撰",
-    "yomi": "ずさん",
-    "choices": [
-      "いい加減で誤りが多いこと",
-      "几帳面で正確なこと",
-      "華やかで目立つこと",
-      "質素で控えめなこと"
-    ],
-    "answer": 0,
-    "explain": "「杜撰」は物事の仕方がいい加減で、誤りが多いことを指します。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "相殺",
-    "yomi": "そうさい",
-    "choices": [
-      "互いに影響し打ち消し合うこと",
-      "一方的に増加すること",
-      "記録を残すこと",
-      "公平に分配すること"
-    ],
-    "answer": 0,
-    "explain": "「相殺」はプラスとマイナスが打ち消し合い、差し引きゼロになることです。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "頓着",
-    "yomi": "とんちゃく",
-    "choices": [
-      "こだわり気にかけること",
-      "即座に反応すること",
-      "強く否定すること",
-      "巧みに隠すこと"
-    ],
-    "answer": 0,
-    "explain": "「頓着しない」の形でよく使われ、「気にかけない」の意味になります。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "拙速",
-    "yomi": "せっそく",
-    "choices": [
-      "丁寧で時間がかかること",
-      "出来は粗くても急ぐこと",
-      "慎重に見送ること",
-      "計画通り進めること"
-    ],
-    "answer": 1,
-    "explain": "「拙速」は仕上がりが粗くても、とにかく急いで行うことです。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "呆気ない",
-    "yomi": "あっけない",
-    "choices": [
-      "予想以上に手間がかかること",
-      "拍子抜けするほど簡単・短いこと",
-      "恐ろしく感じること",
-      "華やかで印象深いこと"
-    ],
-    "answer": 1,
-    "explain": "「呆気ない」は、期待や予想に反して簡単・あっさりしている様子です。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "杞憂",
-    "yomi": "きゆう",
-    "choices": [
-      "余計な心配",
-      "深い後悔",
-      "突然の閃き",
-      "強い怒り"
-    ],
-    "answer": 0,
-    "explain": "「杞憂」は実際には起こらないような無用の心配のことです。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "懸念",
-    "yomi": "けねん",
-    "choices": [
-      "心配・気がかり",
-      "期待",
-      "決意",
-      "誤解"
-    ],
-    "answer": 0,
-    "explain": "「懸念」は物事の先行きを心配し、気にかけることです。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "忖度",
-    "yomi": "そんたく",
-    "choices": [
-      "相手の心情を推し量ること",
-      "相手を厳しく批判すること",
-      "法律に基づいて判断すること",
-      "事実を詳細に記録すること"
-    ],
-    "answer": 0,
-    "explain": "「忖度」は他人の気持ちを察し、それに配慮して行動することです。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "逡巡",
-    "yomi": "しゅんじゅん",
-    "choices": [
-      "決断できずためらうこと",
-      "即断即決すること",
-      "激しく後悔すること",
-      "堂々と主張すること"
-    ],
-    "answer": 0,
-    "explain": "「逡巡」は心が定まらず、ぐずぐずとためらうことです。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "看過",
-    "yomi": "かんか",
-    "choices": [
-      "見過ごして問題にしないこと",
-      "徹底的に調査すること",
-      "強く非難すること",
-      "丁寧に説明すること"
-    ],
-    "answer": 0,
-    "explain": "「看過できない」などの形で、「見逃せない」という否定形が多く使われます。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "掣肘",
-    "yomi": "せいちゅう",
-    "choices": [
-      "自由に行動させること",
-      "干渉して自由な行動を妨げること",
-      "過去の過ちを許すこと",
-      "相手を高く評価すること"
-    ],
-    "answer": 1,
-    "explain": "「掣肘を加える」の形で、干渉して人の自由な行動を妨げることを表します。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "蒙昧",
-    "yomi": "もうまい",
-    "choices": [
-      "知識が豊かで聡明なこと",
-      "知識が乏しく道理に暗いこと",
-      "勇敢で決断力があること",
-      "慎重で用心深いこと"
-    ],
-    "answer": 1,
-    "explain": "「蒙昧」は物事の道理に暗く、知識が乏しいことを指します。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "凡庸",
-    "yomi": "ぼんよう",
-    "choices": [
-      "平凡でとりえがないこと",
-      "非常に優秀なこと",
-      "珍しいこと",
-      "慎重なこと"
-    ],
-    "answer": 0,
-    "explain": "「凡庸」は特に優れた点のない、平凡な様子を表します。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "顕著",
-    "yomi": "けんちょ",
-    "choices": [
-      "はっきりと目立つこと",
-      "わずかであること",
-      "秘密であること",
-      "疑わしいこと"
-    ],
-    "answer": 0,
-    "explain": "「顕著」は特徴などがはっきりと目立つ様子です。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "慫慂",
-    "yomi": "しょうよう",
-    "choices": [
-      "それとなく勧めそそのかすこと",
-      "強く禁止すること",
-      "静かに見守ること",
-      "公然と反対すること"
-    ],
-    "answer": 0,
-    "explain": "「慫慂する」はある行動をとるよう、それとなく勧めることです。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "僥倖",
-    "yomi": "ぎょうこう",
-    "choices": [
-      "思いがけない幸運",
-      "計画通りの成功",
-      "繰り返される不運",
-      "当然の報い"
-    ],
-    "answer": 0,
-    "explain": "「僥倖」は予想外に訪れた幸運のことです。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "韜晦",
-    "yomi": "とうかい",
-    "choices": [
-      "自分の才能や本心を包み隠すこと",
-      "才能を大いに誇示すること",
-      "秘密を暴露すること",
-      "過去を美化すること"
-    ],
-    "answer": 0,
-    "explain": "「韜晦」は自分の本心や才能をわざと隠すことを指します。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "睥睨",
-    "yomi": "へいげい",
-    "choices": [
-      "優しく見守ること",
-      "にらみつけて威圧すること",
-      "丁寧にお辞儀すること",
-      "静かに立ち去ること"
-    ],
-    "answer": 1,
-    "explain": "「睥睨する」は周囲をにらみつけ、威圧するように見渡すことです。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "慙愧",
-    "yomi": "ざんき",
-    "choices": [
-      "恥じ入り深く反省すること",
-      "誇らしく満足すること",
-      "激しく怒ること",
-      "無関心でいること"
-    ],
-    "answer": 0,
-    "explain": "「慙愧に堪えない」の形で、深く恥じ入り反省する気持ちを表します。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "襟を正す",
-    "yomi": "えりをただす",
-    "choices": [
-      "気持ちを引き締め、まじめに取り組むこと",
-      "油断して怠けること",
-      "得意げに振る舞うこと",
-      "激しく言い争うこと"
-    ],
-    "answer": 0,
-    "explain": "「襟を正す」は気持ちを引き締め、真剣な態度で物事に臨むことです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "目を凝らす",
-    "yomi": "めをこらす",
-    "choices": [
-      "注意して集中してよく見ること",
-      "ぼんやりと見過ごすこと",
-      "目をそらすこと",
-      "涙をこらえること"
-    ],
-    "answer": 0,
-    "explain": "「目を凝らす」は意識を集中して、じっと見つめることです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "肩を落とす",
-    "yomi": "かたをおとす",
-    "choices": [
-      "がっかりして気力を失うこと",
-      "得意げに胸を張ること",
-      "激しく怒ること",
-      "急いで走り出すこと"
-    ],
-    "answer": 0,
-    "explain": "「肩を落とす」は失望して元気をなくす様子を表します。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "腹をくくる",
-    "yomi": "はらをくくる",
-    "choices": [
-      "結果を覚悟して決心すること",
-      "不安で落ち着かないこと",
-      "相手に責任を押し付けること",
-      "計画を白紙に戻すこと"
-    ],
-    "answer": 0,
-    "explain": "「腹をくくる」は、どんな結果になっても受け入れる覚悟を決めることです。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "手をこまねく",
-    "yomi": "てをこまねく",
-    "choices": [
-      "何もせず傍観すること",
-      "積極的に手助けすること",
-      "急いで対応すること",
-      "相手を出し抜くこと"
-    ],
-    "answer": 0,
-    "explain": "「手をこまねく」は何もできずにただ見ていることを表します。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "舌を巻く",
-    "yomi": "したをまく",
-    "choices": [
-      "非常に驚き感心すること",
-      "言葉に詰まること",
-      "嘘をつくこと",
-      "強く言い返すこと"
-    ],
-    "answer": 0,
-    "explain": "「舌を巻く」は、あまりの見事さに驚き感心する様子です。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "琴線に触れる",
-    "yomi": "きんせんにふれる",
-    "choices": [
-      "深く感動させ、共感を呼び起こすこと",
-      "相手を激しく怒らせること",
-      "誤解を生じさせること",
-      "無関心な態度を取ること"
-    ],
-    "answer": 0,
-    "explain": "「琴線に触れる」は、人の心の奥にある感情を揺さぶることを意味します。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "白眼視する",
-    "yomi": "はくがんしする",
-    "choices": [
-      "冷たい目で見て軽蔑すること",
-      "温かく見守ること",
-      "公平に評価すること",
-      "熱心に応援すること"
-    ],
-    "answer": 0,
-    "explain": "「白眼視する」は人を冷たい目で見て、疎んじることです。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "膝を打つ",
-    "yomi": "ひざをうつ",
-    "choices": [
-      "感心して思わず動作をすること",
-      "強い痛みを我慢すること",
-      "焦って立ち上がること",
-      "相手に謝罪すること"
-    ],
-    "answer": 0,
-    "explain": "「膝を打つ」は、なるほどと感心したときに思わずとる動作を表します。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "舌鋒鋭い",
-    "yomi": "ぜっぽうするどい",
-    "choices": [
-      "話しぶりが鋭く手厳しいこと",
-      "言葉少なで控えめなこと",
-      "声が大きく騒がしいこと",
-      "話の要点が定まらないこと"
-    ],
-    "answer": 0,
-    "explain": "「舌鋒鋭い」は、非難や議論の際の言葉が鋭く厳しい様子です。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "糊口を凌ぐ",
-    "yomi": "ここうをしのぐ",
-    "choices": [
-      "どうにか生計を立てること",
-      "豪華な暮らしをすること",
-      "仕事を辞めること",
-      "財産を蓄えること"
-    ],
-    "answer": 0,
-    "explain": "「糊口を凌ぐ」は、貧しいながらも何とか生活していくことです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "一朝一夕",
-    "yomi": "いっちょういっせき",
-    "choices": [
-      "わずかな期間",
-      "長い年月をかけること",
-      "何度も繰り返すこと",
-      "思いがけない出来事"
-    ],
-    "answer": 0,
-    "explain": "「一朝一夕」はごく短い期間のことで、多くは打消しの語を伴って使われます。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "一石二鳥",
-    "yomi": "いっせきにちょう",
-    "choices": [
-      "一つの行動で二つの利益を得ること",
-      "二つの目標に同時に挑み両方失敗すること",
-      "一度に多くの人を動員すること",
-      "一貫して同じ方針を貫くこと"
-    ],
-    "answer": 0,
-    "explain": "「一石二鳥」は一つの行為で二つの利益を得ることのたとえです。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "起死回生",
-    "yomi": "きしかいせい",
-    "choices": [
-      "絶望的な状況を立て直すこと",
-      "最初から順調に進むこと",
-      "失敗を静かに受け入れること",
-      "少しずつ着実に進むこと"
-    ],
-    "answer": 0,
-    "explain": "「起死回生」は、絶望的な状態を一気に立て直すことです。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "温故知新",
-    "yomi": "おんこちしん",
-    "choices": [
-      "昔のことを学び、新しい知識や見解を得ること",
-      "古い習慣をすべて否定すること",
-      "新しい技術だけを重視すること",
-      "過去の失敗を繰り返すこと"
-    ],
-    "answer": 0,
-    "explain": "「温故知新」は昔のことを研究し、そこから新しい知識を見いだすことです。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "我田引水",
-    "yomi": "がでんいんすい",
-    "choices": [
-      "自分に都合よく物事を進めること",
-      "他人のために自分を犠牲にすること",
-      "公平に利益を分配すること",
-      "状況を客観的に分析すること"
-    ],
-    "answer": 0,
-    "explain": "「我田引水」は、自分の利益になるように物事を運ぶことです。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "付和雷同",
-    "yomi": "ふわらいどう",
-    "choices": [
-      "自分の考えを持たず他人に同調すること",
-      "独自の意見を強く主張すること",
-      "慎重に物事を検討すること",
-      "対立する意見を調整すること"
-    ],
-    "answer": 0,
-    "explain": "「付和雷同」は自分の考えがなく、安易に他人の意見に同調することです。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "捲土重来",
-    "yomi": "けんどちょうらい",
-    "choices": [
-      "一度敗れた者が勢いを盛り返して巻き返すこと",
-      "一度の成功に満足して努力をやめること",
-      "静かに引退し表舞台から去ること",
-      "他人の功績を横取りすること"
-    ],
-    "answer": 0,
-    "explain": "「捲土重来」は、失敗や敗北から再び勢いを取り戻すことを意味します。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "隔靴掻痒",
-    "yomi": "かっかそうよう",
-    "choices": [
-      "もどかしくてじれったいこと",
-      "望みが完全にかなうこと",
-      "物事が順調に進むこと",
-      "強い喜びを感じること"
-    ],
-    "answer": 0,
-    "explain": "「隔靴掻痒」は靴の上から痒い所をかくように、思うようにいかずもどかしいことです。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "換骨奪胎",
-    "yomi": "かんこつだったい",
-    "choices": [
-      "先人の作品を基にしつつ独自の作を作ること",
-      "他人の作品をそのまま複製すること",
-      "作品を一から作り直すこと",
-      "古い作品を破棄すること"
-    ],
-    "answer": 0,
-    "explain": "「換骨奪胎」は、既存の作品の骨組みを生かしつつ独自性を加えることです。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "曖昧模糊",
-    "yomi": "あいまいもこ",
-    "choices": [
-      "物事がぼんやりとしてはっきりしないこと",
-      "非常に明快で分かりやすいこと",
-      "激しく変化し続けること",
-      "秩序が完全に保たれていること"
-    ],
-    "answer": 0,
-    "explain": "「曖昧模糊」は物事の輪郭がぼやけ、はっきりしない様子を強めた表現です。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "一衣帯水",
-    "yomi": "いちいたいすい",
-    "choices": [
-      "狭い川や海を隔てただけの近い関係",
-      "果てしなく離れた遠い関係",
-      "激しく敵対する関係",
-      "全く接点のない関係"
-    ],
-    "answer": 0,
-    "explain": "「一衣帯水」は、細い帯のような水を隔てただけの、地理的に近い関係を表します。"
-  },
-  {
-    "tier": "基礎",
-    "category": "対義語",
-    "word": "需要（の対義語）",
-    "yomi": "じゅよう",
-    "choices": [
-      "供給",
-      "消費",
-      "生産",
-      "販売"
-    ],
-    "answer": 0,
-    "explain": "「需要」の対義語は「供給」です。求める側と提供する側の関係を表します。"
-  },
-  {
-    "tier": "基礎",
-    "category": "対義語",
-    "word": "支出（の対義語）",
-    "yomi": "ししゅつ",
-    "choices": [
-      "収入",
-      "貯蓄",
-      "投資",
-      "浪費"
-    ],
-    "answer": 0,
-    "explain": "「支出」の対義語は「収入」です。お金の出と入りの関係を表します。"
-  },
-  {
-    "tier": "基礎",
-    "category": "対義語",
-    "word": "拡大（の対義語）",
-    "yomi": "かくだい",
-    "choices": [
-      "縮小",
-      "増加",
-      "発展",
-      "延長"
-    ],
-    "answer": 0,
-    "explain": "「拡大」の対義語は「縮小」です。大きくすることと小さくすることの関係です。"
-  },
-  {
-    "tier": "標準",
-    "category": "対義語",
-    "word": "抽象（の対義語）",
-    "yomi": "ちゅうしょう",
-    "choices": [
-      "具体",
-      "一般",
-      "概念",
-      "理論"
-    ],
-    "answer": 0,
-    "explain": "「抽象」の対義語は「具体」です。形や実体を伴うかどうかの違いを表します。"
-  },
-  {
-    "tier": "標準",
-    "category": "対義語",
-    "word": "保守（の対義語）",
-    "yomi": "ほしゅ",
-    "choices": [
-      "革新",
-      "維持",
-      "安定",
-      "伝統"
-    ],
-    "answer": 0,
-    "explain": "「保守」の対義語は「革新」です。従来を守る立場と変化を求める立場の違いです。"
-  },
-  {
-    "tier": "標準",
-    "category": "対義語",
-    "word": "寛大（の対義語）",
-    "yomi": "かんだい",
-    "choices": [
-      "厳格",
-      "温厚",
-      "柔軟",
-      "冷静"
-    ],
-    "answer": 0,
-    "explain": "「寛大」の対義語は「厳格」です。許容の度合いの違いを表します。"
-  },
-  {
-    "tier": "上級",
-    "category": "対義語",
-    "word": "慎重（の対義語）",
-    "yomi": "しんちょう",
-    "choices": [
-      "軽率",
-      "丁寧",
-      "堅実",
-      "冷静"
-    ],
-    "answer": 0,
-    "explain": "「慎重」の対義語は「軽率」です。物事を深く考えるかどうかの違いを表します。"
-  },
-  {
-    "tier": "上級",
-    "category": "対義語",
-    "word": "謙虚（の対義語）",
-    "yomi": "けんきょ",
-    "choices": [
-      "傲慢",
-      "素直",
-      "控えめ",
-      "誠実"
-    ],
-    "answer": 0,
-    "explain": "「謙虚」の対義語は「傲慢」です。他者への態度の違いを表します。"
-  },
-  {
-    "tier": "至難",
-    "category": "対義語",
-    "word": "迂遠（の対義語）",
-    "yomi": "うえん",
-    "choices": [
-      "直截",
-      "遠回し",
-      "曖昧",
-      "緩慢"
-    ],
-    "answer": 0,
-    "explain": "「迂遠」は遠回しで非効率なさまを指し、対義語は率直・簡潔を表す「直截」です。"
-  },
-  {
-    "tier": "至難",
-    "category": "対義語",
-    "word": "頑迷（の対義語）",
-    "yomi": "がんめい",
-    "choices": [
-      "聡明",
-      "強情",
-      "頑固",
-      "偏屈"
-    ],
-    "answer": 0,
-    "explain": "「頑迷」は頑固で道理が分からないことを指し、対義語は「聡明」です。"
-  },
-  {
-    "tier": "基礎",
-    "category": "難読語",
-    "word": "団扇",
-    "yomi": "うちわ",
-    "choices": [
-      "あおいで風を起こす道具",
-      "雨をしのぐための道具",
-      "字を書くための道具",
-      "食事に使う道具"
-    ],
-    "answer": 0,
-    "explain": "「団扇」は手であおいで涼をとるための道具です。"
-  },
-  {
-    "tier": "基礎",
-    "category": "難読語",
-    "word": "為替",
-    "yomi": "かわせ",
-    "choices": [
-      "現金を使わず送金・決済する仕組み",
-      "土地を測量する仕組み",
-      "商品を輸送する仕組み",
-      "税金を徴収する仕組み"
-    ],
-    "answer": 0,
-    "explain": "「為替」は現金の受け渡しをせずに決済を行う仕組みです。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "海豹",
-    "yomi": "あざらし",
-    "choices": [
-      "海に生息する哺乳類の一種",
-      "海に生息する貝の一種",
-      "深海に住む魚の一種",
-      "海岸に生える植物"
-    ],
-    "answer": 0,
-    "explain": "「海豹」は海に生息する哺乳類、アザラシを指す漢字表記です。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "相応しい",
-    "yomi": "ふさわしい",
-    "choices": [
-      "似合っていて釣り合っていること",
-      "不釣り合いで違和感があること",
-      "目立って派手なこと",
-      "控えめで地味なこと"
-    ],
-    "answer": 0,
-    "explain": "「相応しい」はその場や立場によく似合っていることです。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "徒に",
-    "yomi": "いたずらに",
-    "choices": [
-      "無駄に、むやみに",
-      "真剣に、丁寧に",
-      "急いで、慌てて",
-      "静かに、控えめに"
-    ],
-    "answer": 0,
-    "explain": "「徒に」は意味もなく、無駄に物事を行う様子を表す副詞です。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "逐一",
-    "yomi": "ちくいち",
-    "choices": [
-      "一つ一つ順を追って詳しく",
-      "おおまかにまとめて",
-      "思いつくままに",
-      "最後の一つだけ"
-    ],
-    "answer": 0,
-    "explain": "「逐一」は物事を順序立てて、一つも漏らさず示す様子です。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "忽ち",
-    "yomi": "たちまち",
-    "choices": [
-      "非常に短い時間のうちに",
-      "ゆっくりと時間をかけて",
-      "何度も繰り返して",
-      "予想に反して"
-    ],
-    "answer": 0,
-    "explain": "「忽ち」はごく短時間のうちに事が起こる様子を表す副詞です。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "灰汁",
-    "yomi": "あく",
-    "choices": [
-      "野菜などに含まれる渋みやえぐみの成分",
-      "料理に加える甘み成分",
-      "食材を柔らかくする調味料",
-      "色を鮮やかにする成分"
-    ],
-    "answer": 0,
-    "explain": "「灰汁」は野菜などに含まれる渋み・えぐみのもとになる成分です。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "杞憂",
-    "yomi": "きゆう",
-    "choices": [
-      "必要以上の心配",
-      "喜びがあふれること",
-      "怒りを抑えられないこと",
-      "物事を深く理解すること"
-    ],
-    "answer": 0,
-    "explain": "取り越し苦労のこと。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "示唆",
-    "yomi": "しさ",
-    "choices": [
-      "それとなく知らせること",
-      "強く命令すること",
-      "誤解を招くこと",
-      "大声で主張すること"
-    ],
-    "answer": 0,
-    "explain": "ヒントを与えるように知らせること。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "僥倖",
-    "yomi": "ぎょうこう",
-    "choices": [
-      "思いがけない幸運",
-      "避けられない不運",
-      "努力の末の成功",
-      "他人の失敗"
-    ],
-    "answer": 0,
-    "explain": "偶然得られる幸運のこと。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "膠着",
-    "yomi": "こうちゃく",
-    "choices": [
-      "動きが取れず固まること",
-      "急激に変化すること",
-      "勢いよく進むこと",
-      "完全に消滅すること"
-    ],
-    "answer": 0,
-    "explain": "状況が固まり、動かなくなること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "腰を上げる",
-    "yomi": "こしをあげる",
-    "choices": [
-      "行動を始める",
-      "休憩する",
-      "怒り出す",
-      "諦める"
-    ],
-    "answer": 0,
-    "explain": "重い腰を上げる＝行動を開始すること。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "顔が利く",
-    "yomi": "かおがきく",
-    "choices": [
-      "信用があり融通がきく",
-      "顔色が悪い",
-      "表情が豊かである",
-      "人前に出るのが苦手"
-    ],
-    "answer": 0,
-    "explain": "その場で影響力や信用があること。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "手をこまねく",
-    "yomi": "てをこまねく",
-    "choices": [
-      "何もせず傍観する",
-      "積極的に助ける",
-      "手を怪我する",
-      "手際よく処理する"
-    ],
-    "answer": 0,
-    "explain": "腕を組んで見ている＝傍観すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "水をあける",
-    "yomi": "みずをあける",
-    "choices": [
-      "大差をつけて先んじる",
-      "水をこぼす",
-      "水を飲ませる",
-      "関係を断つ"
-    ],
-    "answer": 0,
-    "explain": "競争で大きく差をつけること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "一石二鳥",
-    "yomi": "いっせきにちょう",
-    "choices": [
-      "一つの行動で二つの利益",
-      "鳥を二羽飼うこと",
-      "石を二つ投げること",
-      "二人で協力すること"
-    ],
-    "answer": 0,
-    "explain": "一つの行動で複数の成果を得ること。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "泰然自若",
-    "yomi": "たいぜんじじゃく",
-    "choices": [
-      "落ち着いて動じない様子",
-      "若々しく活発な様子",
-      "自分勝手な態度",
-      "緊張して慌てる様子"
-    ],
-    "answer": 0,
-    "explain": "どっしりと落ち着いていること。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "付和雷同",
-    "yomi": "ふわらいどう",
-    "choices": [
-      "他人の意見に安易に従う",
-      "雷のように怒る",
-      "付け焼き刃の知識",
-      "同じ場所に集まる"
-    ],
-    "answer": 0,
-    "explain": "自分の考えを持たず他人に同調すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "鶏口牛後",
-    "yomi": "けいこうぎゅうご",
-    "choices": [
-      "大きな組織の末端より小さな組織のトップ",
-      "牛の後ろを歩くこと",
-      "鶏の口を観察すること",
-      "小さな利益より大きな損失"
-    ],
-    "answer": 0,
-    "explain": "大組織の下位より小組織の上位の方が良いという意味。"
-  },
-  {
-    "tier": "基礎",
-    "category": "ことわざ",
-    "word": "急がば回れ",
-    "yomi": "いそがばまわれ",
-    "choices": [
-      "急ぐときほど安全な方法を選べ",
-      "急いで走れ",
-      "回り道は必ず損をする",
-      "急ぐと必ず失敗する"
-    ],
-    "answer": 0,
-    "explain": "急ぐときこそ慎重に進むべきという教え。"
-  },
-  {
-    "tier": "標準",
-    "category": "ことわざ",
-    "word": "二兎を追う者は一兎をも得ず",
-    "yomi": "にとをおうものはいっとをもえず",
-    "choices": [
-      "欲張るとどちらも得られない",
-      "二匹の兎は必ず捕まる",
-      "努力すれば必ず成功する",
-      "一つだけ選ぶと損をする"
-    ],
-    "answer": 0,
-    "explain": "同時に多くを求めると失敗するという戒め。"
-  },
-  {
-    "tier": "上級",
-    "category": "ことわざ",
-    "word": "馬の耳に念仏",
-    "yomi": "うまのみみにねんぶつ",
-    "choices": [
-      "言っても効果がない",
-      "馬が驚くこと",
-      "ありがたい言葉で励ます",
-      "静かに聞き入れる"
-    ],
-    "answer": 0,
-    "explain": "忠告しても無駄なこと。"
-  },
-  {
-    "tier": "至難",
-    "category": "ことわざ",
-    "word": "焼け石に水",
-    "yomi": "やけいしにみず",
-    "choices": [
-      "効果がほとんどない",
-      "水が熱くなる",
-      "石が割れる",
-      "急激に冷える"
-    ],
-    "answer": 0,
-    "explain": "努力が小さすぎて効果がないこと。"
-  },
-  {
-    "tier": "基礎",
-    "category": "難読語",
-    "word": "海月",
-    "yomi": "くらげ",
-    "choices": [
-      "くらげ",
-      "うみつき",
-      "かいげつ",
-      "うみほし"
-    ],
-    "answer": 0,
-    "explain": "海に漂うクラゲのこと。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "早贄",
-    "yomi": "さにえ",
-    "choices": [
-      "さにえ",
-      "はやにえ",
-      "そうにえ",
-      "さにし"
-    ],
-    "answer": 0,
-    "explain": "猛禽類が獲物を木の枝などに突き刺しておくこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "贔屓",
-    "yomi": "ひいき",
-    "choices": [
-      "ひいき",
-      "びき",
-      "ひき",
-      "ひえき"
-    ],
-    "answer": 0,
-    "explain": "特定の人を特別に応援すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "海豹",
-    "yomi": "あざらし",
-    "choices": [
-      "あざらし",
-      "かいひょう",
-      "うみひょう",
-      "あざか"
-    ],
-    "answer": 0,
-    "explain": "海に住む哺乳類アザラシのこと。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "端的",
-    "yomi": "たんてき",
-    "choices": [
-      "簡潔でわかりやすいこと",
-      "遠回しで分かりにくいこと",
-      "複雑で長い説明のこと",
-      "強く主張すること"
-    ],
-    "answer": 0,
-    "explain": "要点を短くはっきり述べる様子。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "如実",
-    "yomi": "にょじつ",
-    "choices": [
-      "ありのままの姿であること",
-      "誇張して伝えること",
-      "曖昧にぼかすこと",
-      "想像で補うこと"
-    ],
-    "answer": 0,
-    "explain": "事実をそのまま表すこと。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "安堵",
-    "yomi": "あんど",
-    "choices": [
-      "ほっと安心すること",
-      "強く不安を覚えること",
-      "怒りがこみ上げること",
-      "驚いて動揺すること"
-    ],
-    "answer": 0,
-    "explain": "心配がなくなり安心すること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "意味",
-    "word": "希薄",
-    "yomi": "きはく",
-    "choices": [
-      "程度が薄く弱いこと",
-      "非常に濃いこと",
-      "強く主張すること",
-      "勢いが増すこと"
-    ],
-    "answer": 0,
-    "explain": "感情・意識・密度などが薄いこと。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "逼迫",
-    "yomi": "ひっぱく",
-    "choices": [
-      "状況が差し迫ること",
-      "余裕があり落ち着くこと",
-      "急に改善すること",
-      "大きく後退すること"
-    ],
-    "answer": 0,
-    "explain": "時間・状況などが切迫して余裕がないこと。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "精緻",
-    "yomi": "せいち",
-    "choices": [
-      "細かく緻密で正確なこと",
-      "大雑把で粗いこと",
-      "勢いだけで進めること",
-      "曖昧で不明瞭なこと"
-    ],
-    "answer": 0,
-    "explain": "細部まで丁寧で精密なこと。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "逞しい",
-    "yomi": "たくましい",
-    "choices": [
-      "力強くしぶといこと",
-      "弱々しく頼りないこと",
-      "慎重で控えめなこと",
-      "静かで目立たないこと"
-    ],
-    "answer": 0,
-    "explain": "強く、困難にも負けない様子。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "端緒",
-    "yomi": "たんちょ",
-    "choices": [
-      "物事の始まり・きっかけ",
-      "終わりの段階",
-      "中断すること",
-      "急に変化すること"
-    ],
-    "answer": 0,
-    "explain": "物事の始まりとなる手がかり。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "示威",
-    "yomi": "じい",
-    "choices": [
-      "力を示して威圧すること",
-      "静かに見守ること",
-      "丁寧に説明すること",
-      "強く感謝を示すこと"
-    ],
-    "answer": 0,
-    "explain": "力を誇示して相手を威圧すること。"
-  },
-  {
-    "tier": "標準",
-    "category": "意味",
-    "word": "越権",
-    "yomi": "えっけん",
-    "choices": [
-      "権限を超えて行動すること",
-      "権限を放棄すること",
-      "権限を強化すること",
-      "権限を他者に譲ること"
-    ],
-    "answer": 0,
-    "explain": "自分の権限を超えた行為をすること。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "僭越",
-    "yomi": "せんえつ",
-    "choices": [
-      "身分不相応に出過ぎた行為をすること",
-      "慎重に控えめに行動すること",
-      "権利を放棄すること",
-      "他者を強く批判すること"
-    ],
-    "answer": 0,
-    "explain": "自分の立場を越えて出過ぎたことをすること。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "峻別",
-    "yomi": "しゅんべつ",
-    "choices": [
-      "厳しく区別すること",
-      "曖昧にまとめること",
-      "無関心で放置すること",
-      "強く反対すること"
-    ],
-    "answer": 0,
-    "explain": "厳密に区別して扱うこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "逼塞",
-    "yomi": "ひっそく",
-    "choices": [
-      "身を隠して暮らすこと",
-      "堂々と振る舞うこと",
-      "急に名声を得ること",
-      "強く主張すること"
-    ],
-    "answer": 0,
-    "explain": "世間に出ず、ひっそり暮らすこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "彷徨",
-    "yomi": "ほうこう",
-    "choices": [
-      "あてもなくさまようこと",
-      "急いで走り回ること",
-      "目的地に直行すること",
-      "慎重に計画すること"
-    ],
-    "answer": 0,
-    "explain": "目的なく歩き回ること。"
-  },
-  {
-    "tier": "上級",
-    "category": "意味",
-    "word": "寡黙",
-    "yomi": "かもく",
-    "choices": [
-      "口数が少なく無口なこと",
-      "よく喋り賑やかなこと",
-      "怒りっぽいこと",
-      "強く主張すること"
-    ],
-    "answer": 0,
-    "explain": "あまり話をしない性質。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "悖理",
-    "yomi": "はいり",
-    "choices": [
-      "道理に反すること",
-      "道理にかなうこと",
-      "非常に丁寧なこと",
-      "強く肯定すること"
-    ],
-    "answer": 0,
-    "explain": "筋道や論理に反していること。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "慫慂",
-    "yomi": "しょうよう",
-    "choices": [
-      "やんわりと勧めること",
-      "強く禁止すること",
-      "無関心で放置すること",
-      "急に反対すること"
-    ],
-    "answer": 0,
-    "explain": "柔らかく促して行動を勧めること。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "諫止",
-    "yomi": "かんし",
-    "choices": [
-      "相手の行動をいさめて止めること",
-      "強く賛成すること",
-      "無視して放置すること",
-      "丁寧に依頼すること"
-    ],
-    "answer": 0,
-    "explain": "誤った行動をやめるよう忠告すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "悔悟",
-    "yomi": "かいご",
-    "choices": [
-      "深く後悔し改めようとすること",
-      "強く怒り続けること",
-      "誇らしく満足すること",
-      "無関心でいること"
-    ],
-    "answer": 0,
-    "explain": "自分の過ちを深く反省すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "意味",
-    "word": "恣意",
-    "yomi": "しい",
-    "choices": [
-      "自分勝手な判断で行うこと",
-      "公平に判断すること",
-      "慎重に検討すること",
-      "他者に委ねること"
-    ],
-    "answer": 0,
-    "explain": "自分の思いつきや気分で物事を決めること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "胸をなでおろす",
-    "yomi": "むねをなでおろす",
-    "choices": [
-      "安心してほっとする",
-      "強く後悔する",
-      "怒りを抑える",
-      "驚いて固まる"
-    ],
-    "answer": 0,
-    "explain": "不安が解消して安心すること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "顔をしかめる",
-    "yomi": "かおをしかめる",
-    "choices": [
-      "不快に感じる",
-      "強く喜ぶ",
-      "驚いて笑う",
-      "深く考え込む"
-    ],
-    "answer": 0,
-    "explain": "嫌な気持ちや痛みで顔をゆがめること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "手を焼く",
-    "yomi": "てをやく",
-    "choices": [
-      "扱いに困る",
-      "簡単にできる",
-      "強く助ける",
-      "無視して放置する"
-    ],
-    "answer": 0,
-    "explain": "対応が難しく困ること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "慣用句",
-    "word": "腹を抱える",
-    "yomi": "はらをかかえる",
-    "choices": [
-      "大笑いする",
-      "強く怒る",
-      "深く悩む",
-      "急いで逃げる"
-    ],
-    "answer": 0,
-    "explain": "お腹を抱えるほど笑うこと。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "胸に刻む",
-    "yomi": "むねにきざむ",
-    "choices": [
-      "深く心に留める",
-      "すぐ忘れる",
-      "強く否定する",
-      "軽く受け流す"
-    ],
-    "answer": 0,
-    "explain": "忘れないよう心に強く留めること。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "足をすくわれる",
-    "yomi": "あしをすくわれる",
-    "choices": [
-      "油断して思わぬ失敗をする",
-      "急に成功する",
-      "慎重に進める",
-      "強く反対される"
-    ],
-    "answer": 0,
-    "explain": "隙を突かれて失敗させられること。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "顔を立てる",
-    "yomi": "かおをたてる",
-    "choices": [
-      "相手の名誉を保つ",
-      "強く批判する",
-      "無視して進める",
-      "自分だけ得をする"
-    ],
-    "answer": 0,
-    "explain": "相手の立場や名誉を傷つけないようにすること。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "手塩にかける",
-    "yomi": "てしおにかける",
-    "choices": [
-      "大切に育てる",
-      "雑に扱う",
-      "急いで仕上げる",
-      "他人に任せる"
-    ],
-    "answer": 0,
-    "explain": "自分の手で丁寧に育てること。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "胸を突く",
-    "yomi": "むねをつく",
-    "choices": [
-      "強い衝撃や感情が心に響く",
-      "無関心でいる",
-      "怒りが収まる",
-      "深く考え込む"
-    ],
-    "answer": 0,
-    "explain": "心に強い衝撃や感情が走ること。"
-  },
-  {
-    "tier": "標準",
-    "category": "慣用句",
-    "word": "腰を据える",
-    "yomi": "こしをすえる",
-    "choices": [
-      "落ち着いてじっくり取り組む",
-      "すぐ諦める",
-      "急いで終わらせる",
-      "他人に任せる"
-    ],
-    "answer": 0,
-    "explain": "腰を落ち着けて本気で取り組むこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "鼻白む",
-    "yomi": "はなじろむ",
-    "choices": [
-      "興ざめして気まずくなる",
-      "強く喜ぶ",
-      "深く感動する",
-      "怒りが爆発する"
-    ],
-    "answer": 0,
-    "explain": "場の雰囲気が悪くなり気まずくなること。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "目を瞠る",
-    "yomi": "めをみはる",
-    "choices": [
-      "驚いて目を大きく開く",
-      "眠くて目を閉じる",
-      "強く否定する",
-      "深く考え込む"
-    ],
-    "answer": 0,
-    "explain": "驚きや感心で目を大きく開くこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "喉から手が出る",
-    "yomi": "のどからてがでる",
-    "choices": [
-      "非常に欲しがる",
-      "強く嫌がる",
-      "無関心でいる",
-      "急に諦める"
-    ],
-    "answer": 0,
-    "explain": "どうしても欲しくてたまらないこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "手を差し伸べる",
-    "yomi": "てをさしのべる",
-    "choices": [
-      "助けようとする",
-      "強く拒否する",
-      "無視して進む",
-      "急に怒り出す"
-    ],
-    "answer": 0,
-    "explain": "困っている人を助けようとすること。"
-  },
-  {
-    "tier": "上級",
-    "category": "慣用句",
-    "word": "胸を借りる",
-    "yomi": "むねをかりる",
-    "choices": [
-      "目上の人に相手をしてもらう",
-      "強く反論する",
-      "無視して立ち去る",
-      "急に謝罪する"
-    ],
-    "answer": 0,
-    "explain": "実力者に相手をしてもらい鍛えてもらうこと。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "膝を屈する",
-    "yomi": "ひざをくっする",
-    "choices": [
-      "屈服して従う",
-      "強く抵抗する",
-      "無関心でいる",
-      "急に逃げる"
-    ],
-    "answer": 0,
-    "explain": "相手に屈服して従うこと。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "眉を顰める",
-    "yomi": "まゆをひそめる",
-    "choices": [
-      "不快・心配で顔をゆがめる",
-      "強く喜ぶ",
-      "深く感動する",
-      "驚いて固まる"
-    ],
-    "answer": 0,
-    "explain": "不快や心配で眉を寄せること。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "手を拱く",
-    "yomi": "てをこまぬく",
-    "choices": [
-      "何もせず傍観する",
-      "積極的に助ける",
-      "急いで対応する",
-      "強く反論する"
-    ],
-    "answer": 0,
-    "explain": "腕を組んで見ている＝傍観すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "鼻を明かす",
-    "yomi": "はなをあかす",
-    "choices": [
-      "相手を出し抜いて成功する",
-      "強く謝罪する",
-      "無視して立ち去る",
-      "急に失敗する"
-    ],
-    "answer": 0,
-    "explain": "相手の予想を裏切り出し抜くこと。"
-  },
-  {
-    "tier": "至難",
-    "category": "慣用句",
-    "word": "目を剥く",
-    "yomi": "めをむく",
-    "choices": [
-      "驚きや怒りで目を大きく開く",
-      "眠くて目を閉じる",
-      "深く考え込む",
-      "強く喜ぶ"
-    ],
-    "answer": 0,
-    "explain": "驚き・怒りで目を大きく見開くこと。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "一心不乱",
-    "yomi": "いっしんふらん",
-    "choices": [
-      "心を集中して物事に取り組むこと",
-      "心が乱れて落ち着かないこと",
-      "複数のことを同時に行うこと",
-      "気まぐれに行動すること"
-    ],
-    "answer": 0,
-    "explain": "心を一つにして集中すること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "公明正大",
-    "yomi": "こうめいせいだい",
-    "choices": [
-      "公平で正しく堂々としていること",
-      "秘密裏に進めること",
-      "強引に押し通すこと",
-      "曖昧な態度を取ること"
-    ],
-    "answer": 0,
-    "explain": "公正で隠し事がなく堂々としていること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "大器晩成",
-    "yomi": "たいきばんせい",
-    "choices": [
-      "大人物は時間をかけて成長すること",
-      "早く成功すること",
-      "努力せず才能が開花すること",
-      "若くして引退すること"
-    ],
-    "answer": 0,
-    "explain": "大成する人ほど成長がゆっくりであること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "四字熟語",
-    "word": "和洋折衷",
-    "yomi": "わようせっちゅう",
-    "choices": [
-      "和風と洋風をうまく取り入れること",
-      "和風だけを重視すること",
-      "洋風だけを重視すること",
-      "伝統を否定すること"
-    ],
-    "answer": 0,
-    "explain": "和と洋の良い部分を合わせること。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "虚心坦懐",
-    "yomi": "きょしんたんかい",
-    "choices": [
-      "先入観なく素直な心で向き合うこと",
-      "強く疑ってかかること",
-      "怒りを抑えられないこと",
-      "慎重すぎて動けないこと"
-    ],
-    "answer": 0,
-    "explain": "偏見を捨て、素直な心で物事を見ること。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "質実剛健",
-    "yomi": "しつじつごうけん",
-    "choices": [
-      "飾り気がなくまじめで強いこと",
-      "派手で華やかなこと",
-      "柔らかく繊細なこと",
-      "計画性がないこと"
-    ],
-    "answer": 0,
-    "explain": "飾り気がなく、まじめで強い性質。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "深謀遠慮",
-    "yomi": "しんぼうえんりょ",
-    "choices": [
-      "深く考え先を見通すこと",
-      "軽率に行動すること",
-      "短期的な利益を求めること",
-      "無計画に進めること"
-    ],
-    "answer": 0,
-    "explain": "深く考え、遠い先まで見通すこと。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "勇猛果敢",
-    "yomi": "ゆうもうかかん",
-    "choices": [
-      "勇ましく決断力があること",
-      "慎重で控えめなこと",
-      "無関心で動かないこと",
-      "強く疑うこと"
-    ],
-    "answer": 0,
-    "explain": "勇気があり、思い切って行動すること。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "大言壮語",
-    "yomi": "たいげんそうご",
-    "choices": [
-      "実力以上の大げさなことを言うこと",
-      "控えめに話すこと",
-      "事実だけを述べること",
-      "強く謝罪すること"
-    ],
-    "answer": 0,
-    "explain": "大げさなことを言って誇張すること。"
-  },
-  {
-    "tier": "標準",
-    "category": "四字熟語",
-    "word": "用意周到",
-    "yomi": "よういしゅうとう",
-    "choices": [
-      "準備が行き届いて抜かりがないこと",
-      "準備不足で慌てること",
-      "無計画に進めること",
-      "急に思いつくこと"
-    ],
-    "answer": 0,
-    "explain": "準備が細かいところまで行き届いていること。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "老成円熟",
-    "yomi": "ろうせいえんじゅく",
-    "choices": [
-      "経験を積み円満に成熟していること",
-      "若く未熟であること",
-      "強く反発すること",
-      "急に才能が開花すること"
-    ],
-    "answer": 0,
-    "explain": "経験を重ねて円満に成熟していること。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "面目躍如",
-    "yomi": "めんもくやくじょ",
-    "choices": [
-      "その人らしさがよく表れること",
-      "面目を失うこと",
-      "強く非難されること",
-      "名誉を失うこと"
-    ],
-    "answer": 0,
-    "explain": "その人らしい特徴がよく表れること。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "百花繚乱",
-    "yomi": "ひゃっかりょうらん",
-    "choices": [
-      "多くの優れたものが一度に現れること",
-      "花が一輪だけ咲くこと",
-      "静かに衰退すること",
-      "一つのものだけが突出すること"
-    ],
-    "answer": 0,
-    "explain": "多くの優れたものが一斉に現れること。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "深山幽谷",
-    "yomi": "しんざんゆうこく",
-    "choices": [
-      "人里離れた静かな山奥",
-      "都会の中心部",
-      "賑やかな市場",
-      "海辺の集落"
-    ],
-    "answer": 0,
-    "explain": "人がほとんど来ない静かな山奥。"
-  },
-  {
-    "tier": "上級",
-    "category": "四字熟語",
-    "word": "泰山北斗",
-    "yomi": "たいざんほくと",
-    "choices": [
-      "その道の第一人者",
-      "無名の新人",
-      "強く批判される人物",
-      "影響力のない人物"
-    ],
-    "answer": 0,
-    "explain": "ある分野で最も権威のある人物。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "曲学阿世",
-    "yomi": "きょくがくあせい",
-    "choices": [
-      "学問をゆがめて世間に迎合すること",
-      "学問を深く探求すること",
-      "世間から孤立すること",
-      "学問を放棄すること"
-    ],
-    "answer": 0,
-    "explain": "学問の内容をゆがめて世間に迎合すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "朝秦暮楚",
-    "yomi": "ちょうしんぼそ",
-    "choices": [
-      "主義や態度が頻繁に変わること",
-      "一貫して変わらないこと",
-      "強く反対し続けること",
-      "慎重で動かないこと"
-    ],
-    "answer": 0,
-    "explain": "主義や態度が頻繁に変わること。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "膏腴之地",
-    "yomi": "こうゆのち",
-    "choices": [
-      "肥えて豊かな土地",
-      "荒れ果てた土地",
-      "寒冷で作物が育たない土地",
-      "人が住めない土地"
-    ],
-    "answer": 0,
-    "explain": "肥えて豊かな土地のこと。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "驥尾に付す",
-    "yomi": "きびにつす",
-    "choices": [
-      "優れた人に従って成功すること",
-      "独力で成功すること",
-      "強く反発すること",
-      "無関心でいること"
-    ],
-    "answer": 0,
-    "explain": "優れた人に従って成功すること。"
-  },
-  {
-    "tier": "至難",
-    "category": "四字熟語",
-    "word": "鶴立企侈",
-    "yomi": "かくりつきし",
-    "choices": [
-      "群を抜いて優れていること",
-      "控えめで目立たないこと",
-      "強く反対されること",
-      "急に衰えること"
-    ],
-    "answer": 0,
-    "explain": "多くの中でひときわ優れていること。"
-  },
-  {
-    "tier": "基礎",
-    "category": "ことわざ",
-    "word": "石の上にも三年",
-    "yomi": "いしのうえにもさんねん",
-    "choices": [
-      "辛抱強く続ければ成果が出る",
-      "すぐに諦めるべきである",
-      "石を温めると柔らかくなる",
-      "長く続けると必ず損をする"
-    ],
-    "answer": 0,
-    "explain": "辛抱強く続けることの大切さを説く言葉。"
-  },
-  {
-    "tier": "基礎",
-    "category": "ことわざ",
-    "word": "猫の手も借りたい",
-    "yomi": "ねこのてもかりたい",
-    "choices": [
-      "非常に忙しく誰でもいいから助けがほしい",
-      "暇でやることがない",
-      "猫を飼うと運が良くなる",
-      "助けを拒むべきである"
-    ],
-    "answer": 0,
-    "explain": "忙しすぎて誰でもいいから手伝ってほしい状況。"
-  },
-  {
-    "tier": "基礎",
-    "category": "ことわざ",
-    "word": "二度あることは三度ある",
-    "yomi": "にどあることはさんどある",
-    "choices": [
-      "同じことは繰り返し起こる",
-      "二度起きたら必ず止まる",
-      "三度目は必ず成功する",
-      "偶然は続かない"
-    ],
-    "answer": 0,
-    "explain": "同じ出来事は繰り返し起こりやすいという意味。"
-  },
-  {
-    "tier": "基礎",
-    "category": "ことわざ",
-    "word": "蓼食う虫も好き好き",
-    "yomi": "たでくうむしもすきずき",
-    "choices": [
-      "人の好みはそれぞれ違う",
-      "虫は苦いものを食べない",
-      "好みは必ず一致する",
-      "苦いものは必ず嫌われる"
-    ],
-    "answer": 0,
-    "explain": "人の好みは多様であるという意味。"
-  },
-  {
-    "tier": "標準",
-    "category": "ことわざ",
-    "word": "馬子にも衣装",
-    "yomi": "まごにもいしょう",
-    "choices": [
-      "誰でも装い次第で立派に見える",
-      "衣装は身分によって決まる",
-      "馬子は衣装を着ない",
-      "衣装は意味がない"
-    ],
-    "answer": 0,
-    "explain": "身なりを整えれば誰でも見栄えが良くなるという意味。"
-  },
-  {
-    "tier": "標準",
-    "category": "ことわざ",
-    "word": "負けるが勝ち",
-    "yomi": "まけるがかち",
-    "choices": [
-      "表面上負けても結果的に得をする",
-      "負けると必ず損をする",
-      "勝つことがすべてである",
-      "負けると信用を失う"
-    ],
-    "answer": 0,
-    "explain": "争いを避けることで結果的に有利になること。"
-  },
-  {
-    "tier": "標準",
-    "category": "ことわざ",
-    "word": "口は災いの元",
-    "yomi": "くちはわざわいのもと",
-    "choices": [
-      "不用意な発言がトラブルを招く",
-      "口を使うと運が良くなる",
-      "黙っていると損をする",
-      "話すほど信用が増える"
-    ],
-    "answer": 0,
-    "explain": "軽率な発言が災いを招くという戒め。"
-  },
-  {
-    "tier": "標準",
-    "category": "ことわざ",
-    "word": "棚から牡丹餅",
-    "yomi": "たなからぼたもち",
-    "choices": [
-      "思いがけない幸運が舞い込む",
-      "努力しないと幸運は来ない",
-      "棚を使うと運が良くなる",
-      "牡丹餅は棚に置くべきである"
-    ],
-    "answer": 0,
-    "explain": "思いがけず幸運が手に入ること。"
-  },
-  {
-    "tier": "標準",
-    "category": "ことわざ",
-    "word": "泣きっ面に蜂",
-    "yomi": "なきっつらにはち",
-    "choices": [
-      "悪いことが続けて起こる",
-      "泣くと蜂が寄ってくる",
-      "泣くと運が良くなる",
-      "蜂は泣き声を嫌う"
-    ],
-    "answer": 0,
-    "explain": "不運が重なることのたとえ。"
-  },
-  {
-    "tier": "標準",
-    "category": "ことわざ",
-    "word": "石橋を叩いて渡る",
-    "yomi": "いしばしをたたいてわたる",
-    "choices": [
-      "非常に慎重に行動する",
-      "大胆に行動する",
-      "石橋は叩くと壊れる",
-      "慎重すぎると必ず失敗する"
-    ],
-    "answer": 0,
-    "explain": "用心深く慎重に行動すること。"
-  },
-  {
-    "tier": "上級",
-    "category": "ことわざ",
-    "word": "虎穴に入らずんば虎子を得ず",
-    "yomi": "こけつにいらずんばこじをえず",
-    "choices": [
-      "危険を冒さなければ大きな成果は得られない",
-      "危険を避ければ成功する",
-      "虎は危険ではない",
-      "努力しなくても成果は得られる"
-    ],
-    "answer": 0,
-    "explain": "リスクを取らなければ大きな成果は得られないという意味。"
-  },
-  {
-    "tier": "上級",
-    "category": "ことわざ",
-    "word": "仏の顔も三度",
-    "yomi": "ほとけのかおもさんど",
-    "choices": [
-      "温厚な人でも度重なる無礼には怒る",
-      "仏は怒らない",
-      "三度謝れば許される",
-      "怒りは必ず消える"
-    ],
-    "answer": 0,
-    "explain": "温厚な人でも限度を超えれば怒るという意味。"
-  },
-  {
-    "tier": "上級",
-    "category": "ことわざ",
-    "word": "井の中の蛙大海を知らず",
-    "yomi": "いのなかのかわずたいかいをしらず",
-    "choices": [
-      "狭い世界しか知らないこと",
-      "蛙は海に行かない",
-      "海を知ると蛙は成長する",
-      "狭い世界の方が安全である"
-    ],
-    "answer": 0,
-    "explain": "視野が狭く広い世界を知らないこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "ことわざ",
-    "word": "雨垂れ石を穿つ",
-    "yomi": "あまだれいしをうがつ",
-    "choices": [
-      "小さな努力でも続ければ大きな成果になる",
-      "雨は石を溶かす",
-      "努力は必ず報われない",
-      "石は雨で壊れる"
-    ],
-    "answer": 0,
-    "explain": "継続の力の大きさを示す言葉。"
-  },
-  {
-    "tier": "上級",
-    "category": "ことわざ",
-    "word": "画竜点睛",
-    "yomi": "がりょうてんせい",
-    "choices": [
-      "最後の仕上げが全体を引き立てる",
-      "竜の絵は必ず目を描くべきである",
-      "仕上げは不要である",
-      "最初の一筆が最重要である"
-    ],
-    "answer": 0,
-    "explain": "最後の仕上げが全体を引き立てるという意味。"
-  },
-  {
-    "tier": "至難",
-    "category": "ことわざ",
-    "word": "鶏群の一鶴",
-    "yomi": "けいぐんのいっかく",
-    "choices": [
-      "多くの中でひときわ優れている人",
-      "群れの中で最も弱い人",
-      "鶏の群れを率いる人",
-      "目立たない人"
-    ],
-    "answer": 0,
-    "explain": "凡人の中に優れた人物がいること。"
-  },
-  {
-    "tier": "至難",
-    "category": "ことわざ",
-    "word": "蛇足",
-    "yomi": "だそく",
-    "choices": [
-      "余計な付け足しをすること",
-      "必要な補足をすること",
-      "蛇は足がある",
-      "不足している部分を補うこと"
-    ],
-    "answer": 0,
-    "explain": "必要のない付け足しをすること。"
-  },
-  {
-    "tier": "至難",
-    "category": "ことわざ",
-    "word": "杞人憂天",
-    "yomi": "きじんゆうてん",
-    "choices": [
-      "起こりもしないことを心配する",
-      "天を見上げると幸運が訪れる",
-      "空を恐れるべきである",
-      "心配は必ず現実になる"
-    ],
-    "answer": 0,
-    "explain": "起こりもしないことを心配する愚かさを説く故事。"
-  },
-  {
-    "tier": "至難",
-    "category": "ことわざ",
-    "word": "燕雀安んぞ鴻鵠の志を知らんや",
-    "yomi": "えんじゃくいずんぞこうこくのこころざしをしらんや",
-    "choices": [
-      "小人物には大人物の志は理解できない",
-      "鳥は志を持たない",
-      "志は誰でも同じである",
-      "大人物は小人物を理解できない"
-    ],
-    "answer": 0,
-    "explain": "小さな人物には大きな志は理解できないという意味。"
-  },
-  {
-    "tier": "至難",
-    "category": "ことわざ",
-    "word": "虎視眈々",
-    "yomi": "こしたんたん",
-    "choices": [
-      "機会をうかがって狙うこと",
-      "無関心でいること",
-      "急いで行動すること",
-      "強く拒否すること"
-    ],
-    "answer": 0,
-    "explain": "機会をじっと狙っている様子。"
-  },
-  {
-    "tier": "基礎",
-    "category": "難読語",
-    "word": "胡瓜",
-    "yomi": "きゅうり",
-    "choices": [
-      "きゅうり",
-      "こか",
-      "うりか",
-      "くわい"
-    ],
-    "answer": 0,
-    "explain": "夏野菜のきゅうりを表す漢字。"
-  },
-  {
-    "tier": "基礎",
-    "category": "難読語",
-    "word": "蝸牛",
-    "yomi": "かたつむり",
-    "choices": [
-      "かたつむり",
-      "かぎゅう",
-      "こうにゅう",
-      "かにゅう"
-    ],
-    "answer": 0,
-    "explain": "殻を背負った陸生の軟体動物。"
-  },
-  {
-    "tier": "基礎",
-    "category": "難読語",
-    "word": "雛",
-    "yomi": "ひな",
-    "choices": [
-      "ひな",
-      "すずめ",
-      "こどり",
-      "ひよこ"
-    ],
-    "answer": 0,
-    "explain": "鳥の子どもを指す語。"
-  },
-  {
-    "tier": "基礎",
-    "category": "難読語",
-    "word": "氷柱",
-    "yomi": "つらら",
-    "choices": [
-      "つらら",
-      "ひょうちゅう",
-      "こおりばしら",
-      "つらり"
-    ],
-    "answer": 0,
-    "explain": "屋根などから垂れ下がる氷の柱。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "海胆",
-    "yomi": "うに",
-    "choices": [
-      "うに",
-      "かいたん",
-      "うたん",
-      "かいしん"
-    ],
-    "answer": 0,
-    "explain": "棘を持つ海の生物、ウニの漢字表記。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "山葵",
-    "yomi": "わさび",
-    "choices": [
-      "わさび",
-      "やまき",
-      "さんき",
-      "わしび"
-    ],
-    "answer": 0,
-    "explain": "薬味として使われるわさびの漢字。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "蜻蛉",
-    "yomi": "とんぼ",
-    "choices": [
-      "とんぼ",
-      "せいれい",
-      "かげろう",
-      "ほたる"
-    ],
-    "answer": 0,
-    "explain": "空をすばやく飛ぶ昆虫、トンボの漢字。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "鰍",
-    "yomi": "かじか",
-    "choices": [
-      "かじか",
-      "かつお",
-      "こい",
-      "なまず"
-    ],
-    "answer": 0,
-    "explain": "川に住む小型の魚、カジカの漢字。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "梟",
-    "yomi": "ふくろう",
-    "choices": [
-      "ふくろう",
-      "たか",
-      "とび",
-      "みみずく"
-    ],
-    "answer": 0,
-    "explain": "夜行性の鳥、フクロウの漢字。"
-  },
-  {
-    "tier": "標準",
-    "category": "難読語",
-    "word": "鱧",
-    "yomi": "はも",
-    "choices": [
-      "はも",
-      "うなぎ",
-      "あなご",
-      "たら"
-    ],
-    "answer": 0,
-    "explain": "夏の京都でよく食べられる魚、ハモの漢字。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "贓物",
-    "yomi": "ぞうもつ",
-    "choices": [
-      "盗品",
-      "贈り物",
-      "遺品",
-      "古物"
-    ],
-    "answer": 0,
-    "explain": "盗んだ品物のこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "蹉跌",
-    "yomi": "さてつ",
-    "choices": [
-      "つまずき失敗すること",
-      "急に成功すること",
-      "強く反論すること",
-      "慎重に進めること"
-    ],
-    "answer": 0,
-    "explain": "思わぬ失敗や挫折のこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "悄然",
-    "yomi": "しょうぜん",
-    "choices": [
-      "しょんぼりと元気がない様子",
-      "怒りで震える様子",
-      "喜びで興奮する様子",
-      "無関心でいる様子"
-    ],
-    "answer": 0,
-    "explain": "気落ちして元気がない様子。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "諍い",
-    "yomi": "いさかい",
-    "choices": [
-      "争い・もめごと",
-      "強い協力",
-      "深い感謝",
-      "静かな相談"
-    ],
-    "answer": 0,
-    "explain": "争いやもめごとのこと。"
-  },
-  {
-    "tier": "上級",
-    "category": "難読語",
-    "word": "齟齬",
-    "yomi": "そご",
-    "choices": [
-      "食い違い・ずれ",
-      "完全な一致",
-      "強い反発",
-      "急な変化"
-    ],
-    "answer": 0,
-    "explain": "意見や認識が食い違うこと。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "鷹揚",
-    "yomi": "おうよう",
-    "choices": [
-      "おおらかで落ち着いている様子",
-      "怒りっぽい様子",
-      "慎重すぎる様子",
-      "無関心な様子"
-    ],
-    "answer": 0,
-    "explain": "おおらかでゆったりした様子。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "靉靆",
-    "yomi": "あいたい",
-    "choices": [
-      "雲や霧がたなびく様子",
-      "強風が吹く様子",
-      "炎が揺らめく様子",
-      "水が激しく流れる様子"
-    ],
-    "answer": 0,
-    "explain": "雲や霧がたなびく様子を表す語。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "曖昧",
-    "yomi": "あいまい",
-    "choices": [
-      "はっきりしないこと",
-      "非常に明快なこと",
-      "強く主張すること",
-      "急に変化すること"
-    ],
-    "answer": 0,
-    "explain": "物事がはっきりしない様子。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "靡く",
-    "yomi": "なびく",
-    "choices": [
-      "風に従って揺れる",
-      "強く逆らう",
-      "急に止まる",
-      "固く固定される"
-    ],
-    "answer": 0,
-    "explain": "風や流れに従って揺れること。"
-  },
-  {
-    "tier": "至難",
-    "category": "難読語",
-    "word": "孑孑",
-    "yomi": "ぼうふら",
-    "choices": [
-      "蚊の幼虫",
-      "小さな魚",
-      "水中の虫",
-      "植物の芽"
-    ],
-    "answer": 0,
-    "explain": "蚊の幼虫を表す語。"
-  }
-];
+/* =========================================================
+   ことわざチャレンジ！ - 中学生向け語彙クイズツール
+   ========================================================= */
 
-let QUESTION_BANK = [];
-const STORAGE_KEY_QUESTIONS = 'vocab_quiz_custom_questions_v4';
-const STORAGE_KEY_HISTORY = 'vocab_quiz_history_v1';
+const STORAGE_QUESTIONS = 'kotowaza_challenge_questions_v1';
+const STORAGE_HISTORY   = 'kotowaza_challenge_history_v1';
 
-// ロード処理
-function loadQuestionBank(){
-  const saved = localStorage.getItem(STORAGE_KEY_QUESTIONS);
-  if(saved){
-    try { QUESTION_BANK = JSON.parse(saved); } 
-    catch(e) { QUESTION_BANK = [...DEFAULT_QUESTIONS]; }
-  } else {
-    QUESTION_BANK = [...DEFAULT_QUESTIONS];
-  }
-}
-
-function saveQuestionBank(){
-  localStorage.setItem(STORAGE_KEY_QUESTIONS, JSON.stringify(QUESTION_BANK));
-}
-
-function getTierCounts(){
-  const counts = { "基礎": 0, "標準": 0, "上級": 0, "至難": 0 };
-  QUESTION_BANK.forEach(q => { if(counts[q.tier] !== undefined) counts[q.tier]++; });
-  return {
-    "基礎": Math.min(4, counts["基礎"]),
-    "標準": Math.min(4, counts["標準"]),
-    "上級": Math.min(4, counts["上級"]),
-    "至難": Math.min(3, counts["至難"])
-  };
-}
-
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i = a.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function shuffleChoices(q){
-  const order = shuffle([0,1,2,3]);
-  const newChoices = order.map(i => q.choices[i]);
-  const newAnswer = order.indexOf(q.answer);
-  return { ...q, choices: newChoices, answer: newAnswer };
-}
-
-function buildSession(){
-  let session = [];
-  const tierCounts = getTierCounts();
-  Object.keys(tierCounts).forEach(tier => {
-    const pool = QUESTION_BANK.filter(q => q.tier === tier);
-    const picked = shuffle(pool).slice(0, tierCounts[tier]);
-    session = session.concat(picked);
-  });
-  return session.map(shuffleChoices);
-}
-
-let QUESTIONS = [];
-let current = 0;
-let score = 0;
-let tierScores = {};
-let categoryScores = {};
-let missed = [];
-let answered = false;
-
-const CATEGORY_PROMPTS = {
-  "意味": "次の言葉の意味に最も近いものを選んでください。",
-  "慣用句": "次の慣用句の意味として最も近いものを選んでください。",
-  "四字熟語": "次の四字熟語の意味として最も近いものを選んでください。",
-  "対義語": "次の言葉の対義語として最も適切なものを選んでください。",
-  "難読語": "次の言葉の意味として最も近いものを選んでください。"
+const TIER_LABEL = { '基礎':'Lv.1 きそ', '標準':'Lv.2 ひょうじゅん', '上級':'Lv.3 じょうきゅう' };
+const TYPE_LABEL = { meaning:'🔍 意味', fill:'✏️ 穴埋め', usage:'🎬 使い方' };
+const TYPE_LABEL_SHORT = { meaning:'意味', fill:'穴埋め', usage:'使い方' };
+const TYPE_PROMPT = {
+  meaning:'このことわざの意味として、いちばん近いものを選ぼう。',
+  fill:'空欄に入る言葉を選んで、ことわざを完成させよう。',
+  usage:'この場面にぴったりのことわざを選ぼう。'
 };
 
-const folioEl = document.getElementById('folio');
-const introEl = document.getElementById('intro');
-const adminEl = document.getElementById('admin');
-const historyEl = document.getElementById('history');
-const quizEl = document.getElementById('quiz');
-const resultEl = document.getElementById('result');
+/* ---------------- default question bank (45問) ---------------- */
+const DEFAULT_QUESTIONS = [
+/* ===== 基礎 15問 ===== */
+{tier:'基礎',qtype:'meaning',proverb:'猿も木から落ちる',reading:'さるもきからおちる',display:'猿も木から落ちる',
+ choices:['どんなに得意なことでも、名人でも失敗することがある','いつも成功して自慢げになること','木登りが得意な人をほめる言葉','動物は高い場所が苦手だということ'],answer:0,
+ explain:'木登りが得意な猿でも時には木から落ちることから、その道の名人でも失敗することがあるという意味。',meaningShort:'名人でも失敗することがある'},
+{tier:'基礎',qtype:'meaning',proverb:'石の上にも三年',reading:'いしのうえにもさんねん',display:'石の上にも三年',
+ choices:['つらくても辛抱強く続ければ、いつか必ず成功するということ','石はどんなに長く置いても変化しないということ','三年は何をするにもちょうどよい期間だということ','石の上に座ると体が温まるということ'],answer:0,
+ explain:'冷たい石の上でも三年座り続ければ暖まることから、辛抱強く続ける大切さを表す。',meaningShort:'辛抱強く続ければ成功する'},
+{tier:'基礎',qtype:'meaning',proverb:'花より団子',reading:'はなよりだんご',display:'花より団子',
+ choices:['見た目の美しさより、実際に役立つものの方がよいということ','花も団子もどちらも大切にすべきだということ','お花見には団子を持っていくべきだということ','団子は花のように美しく作るべきだということ'],answer:0,
+ explain:'美しい花を見るより、食べておいしい団子の方がよいという意味から、見た目より実質を選ぶことのたとえ。',meaningShort:'見た目より実質を選ぶこと'},
+{tier:'基礎',qtype:'meaning',proverb:'二階から目薬',reading:'にかいからめぐすり',display:'二階から目薬',
+ choices:['遠回りで、思うような効き目や効果が得られないこと','高い場所は危険だから注意しようということ','目薬は二階の窓から差すのが正しい方法だということ','素早く的確に物事を行うこと'],answer:0,
+ explain:'二階から一階にいる人の目に目薬を差そうとしても、うまく入らずもどかしいことから。',meaningShort:'遠回りで効き目が薄いこと'},
+{tier:'基礎',qtype:'meaning',proverb:'井の中の蛙大海を知らず',reading:'いのなかのかわずたいかいをしらず',display:'井の中の蛙大海を知らず',
+ choices:['狭い世界だけで満足し、広い世界があることを知らないこと','カエルは海で暮らせないということ','井戸の中は涼しくて過ごしやすいということ','広い世界を知っている人はえらいということ'],answer:0,
+ explain:'井戸の中のカエルは海の広さを知らないことから、視野の狭さをたとえる言葉。',meaningShort:'視野が狭く広い世界を知らないこと'},
+{tier:'基礎',qtype:'fill',proverb:'犬も歩けば棒に当たる',reading:'いぬもあるけばぼうにあたる',display:'犬も歩けば（　）に当たる',
+ choices:['棒','石','川','木'],answer:0,
+ explain:'「犬も歩けば棒に当たる」は、出歩けば思いがけない幸運や災難に出会うという意味。',meaningShort:'出歩けば思わぬ出来事に出会うこと'},
+{tier:'基礎',qtype:'fill',proverb:'塵も積もれば山となる',reading:'ちりもつもればやまとなる',display:'塵も積もれば（　）となる',
+ choices:['山','海','石','森'],answer:0,
+ explain:'小さなことでも積み重なれば、やがて大きなものになるという意味。',meaningShort:'小さなことも積み重なれば大きくなる'},
+{tier:'基礎',qtype:'fill',proverb:'早起きは三文の徳',reading:'はやおきはさんもんのとく',display:'早起きは三文の（　）',
+ choices:['徳','損','罪','恥'],answer:0,
+ explain:'朝早く起きると、何かしら良いことがあるという意味。「得」と書くこともある。',meaningShort:'早起きすると良いことがある'},
+{tier:'基礎',qtype:'fill',proverb:'馬の耳に念仏',reading:'うまのみみにねんぶつ',display:'（　）の耳に念仏',
+ choices:['馬','牛','猫','犬'],answer:0,
+ explain:'いくら意見や忠告をしても、まったく効き目がないことのたとえ。',meaningShort:'意見や忠告をしても効き目がないこと'},
+{tier:'基礎',qtype:'usage',proverb:'三度目の正直',reading:'さんどめのしょうじき',
+ display:'何度も自転車の練習をして失敗していたが、三回目の挑戦でついに乗れるようになった。この場面にぴったりのことわざは？',
+ choices:['三度目の正直','二階から目薬','猫に小判','馬の耳に念仏'],answer:0,
+ explain:'「三度目の正直」は、一度や二度うまくいかなくても、三度目にはうまくいくということ。',meaningShort:'何度目かでうまくいくこと'},
+{tier:'基礎',qtype:'usage',proverb:'猫に小判',reading:'ねこにこばん',
+ display:'大切な絵の具セットをあげたのに、弟はその価値がまったくわからず、ただの箱として使っていた。この場面にぴったりのことわざは？',
+ choices:['猫に小判','花より団子','灯台下暗し','情けは人のためならず'],answer:0,
+ explain:'「猫に小判」は、価値のわからない者に貴重な物を与えても無駄になることのたとえ。',meaningShort:'価値がわからない人に貴重なものを与えても無駄'},
+{tier:'基礎',qtype:'meaning',proverb:'覆水盆に返らず',reading:'ふくすいぼんにかえらず',display:'覆水盆に返らず',
+ choices:['一度してしまったことは、もう取り返しがつかないということ','こぼれた水はすぐに拭き取るべきだということ','盆に水を入れて運ぶのは難しいということ','失敗しても何度でもやり直せるということ'],answer:0,
+ explain:'一度こぼれた水は盆に戻せないことから、取り返しのつかないことのたとえ。',meaningShort:'取り返しがつかないこと'},
+{tier:'基礎',qtype:'meaning',proverb:'光陰矢の如し',reading:'こういんやのごとし',display:'光陰矢の如し',
+ choices:['月日が経つのは、矢のようにとても早いということ','弓矢の練習は毎日続けるべきだということ','時間はゆっくり流れるものだということ','矢を射るには長い時間がかかるということ'],answer:0,
+ explain:'「光陰」は月日、「矢の如し」は矢のように速いという意味で、時の流れの速さをたとえる。',meaningShort:'月日が経つのはとても早いこと'},
+{tier:'基礎',qtype:'fill',proverb:'七転び八起き',reading:'ななころびやおき',display:'七転び（　）起き',
+ choices:['八','七','十','九'],answer:0,
+ explain:'何度失敗してもくじけずに立ち直ることのたとえ。',meaningShort:'何度失敗してもくじけず立ち直ること'},
+{tier:'基礎',qtype:'usage',proverb:'焼け石に水',reading:'やけいしにみず',
+ display:'クラス全体の意見がバラバラでまとまらない中、ひとりが少し声をかけたところで、何の変化も起きなかった。この場面にぴったりのことわざは？',
+ choices:['焼け石に水','覆水盆に返らず','光陰矢の如し','七転び八起き'],answer:0,
+ explain:'焼けた石に少しの水をかけても意味がないことから、わずかな努力や援助では効果がほとんどないことのたとえ。',meaningShort:'わずかな努力では効果がないこと'},
 
-function showScreen(el){
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  el.classList.add('active');
+/* ===== 標準 15問 ===== */
+{tier:'標準',qtype:'meaning',proverb:'灯台下暗し',reading:'とうだいもとくらし',display:'灯台下暗し',
+ choices:['身近なことほど、かえって気づきにくいということ','灯台の下は明るくて安全だということ','遠くのことより近くのことを大切にするべきだということ','夜は灯りをつけて歩くべきだということ'],answer:0,
+ explain:'灯台はその足元を照らせないことから、身近なことに案外気づきにくいことのたとえ。',meaningShort:'身近なことほど気づきにくいこと'},
+{tier:'標準',qtype:'meaning',proverb:'情けは人のためならず',reading:'なさけはひとのためならず',display:'情けは人のためならず',
+ choices:['人に親切にすれば、いずれ巡り巡って自分のためになるということ','人に情けをかけるのはその人のためにならないということ','困っている人は自分の力だけで解決すべきだということ','情けをかけすぎると相手に迷惑になるということ'],answer:0,
+ explain:'誤って「情けは相手のためにならない」と解釈されがちだが、正しくは親切は巡り巡って自分に返ってくるという意味。',meaningShort:'親切は巡り巡って自分に返ってくる'},
+{tier:'標準',qtype:'meaning',proverb:'蓼食う虫も好き好き',reading:'たでくうむしもすきずき',display:'蓼食う虫も好き好き',
+ choices:['人によって好みはさまざまであるということ','虫はどんな食べ物でも食べられるということ','苦い食べ物は体に良いということ','好き嫌いをしてはいけないということ'],answer:0,
+ explain:'苦い蓼の葉を好んで食べる虫がいることから、人の好みは人それぞれだという意味。',meaningShort:'人の好みはさまざまであること'},
+{tier:'標準',qtype:'meaning',proverb:'泣き面に蜂',reading:'なきつらにはち',display:'泣き面に蜂',
+ choices:['不運の上に、さらに悪いことが重なること','泣いている人を助けるべきだということ','蜂に刺されたら泣いてもいいということ','悲しいときほど笑うべきだということ'],answer:0,
+ explain:'泣いている顔をさらに蜂が刺すことから、不運が重なることのたとえ。',meaningShort:'不運の上に悪いことが重なること'},
+{tier:'標準',qtype:'meaning',proverb:'良薬は口に苦し',reading:'りょうやくはくちににがし',display:'良薬は口に苦し',
+ choices:['よく効く忠告ほど聞くのがつらいが、自分のためになるということ','良い薬は甘くておいしいということ','苦い物を食べると健康になるということ','薬は口から飲むのが一番よいということ'],answer:0,
+ explain:'効き目のよい薬は苦いことが多いように、身のためになる忠告は耳が痛いものだという意味。',meaningShort:'耳の痛い忠告ほど自分のためになる'},
+{tier:'標準',qtype:'meaning',proverb:'鬼の目にも涙',reading:'おにのめにもなみだ',display:'鬼の目にも涙',
+ choices:['冷酷に見える人でも、時には情け深い一面を見せることがあるということ','鬼は本当は優しい生き物だということ','悲しいときは誰でも鬼のような顔になるということ','涙を見せる人は弱い人だということ'],answer:0,
+ explain:'恐ろしい鬼でさえ涙を流すことがあるように、冷たそうな人にも人情があることのたとえ。',meaningShort:'冷たそうな人にも人情があること'},
+{tier:'標準',qtype:'meaning',proverb:'桃栗三年柿八年',reading:'ももくりさんねんかきはちねん',display:'桃栗三年柿八年',
+ choices:['何事も成果が出るまでには、それ相応の年月がかかるということ','桃と栗と柿は同じ時期に食べるとおいしいということ','果物は三年から八年で腐ってしまうということ','早く結果を求めるべきだということ'],answer:0,
+ explain:'桃や栗は実がなるまで三年、柿は八年かかることから、何事も相応の年月が必要だという意味。',meaningShort:'成果が出るには相応の年月がかかる'},
+{tier:'標準',qtype:'fill',proverb:'棚から牡丹餅',reading:'たなからぼたもち',display:'棚から（　）餅',
+ choices:['牡丹','桜','桃','梅'],answer:0,
+ explain:'「棚から牡丹餅」は、思いがけない幸運が転がり込んでくることのたとえ。',meaningShort:'思いがけない幸運が転がり込むこと'},
+{tier:'標準',qtype:'fill',proverb:'転ばぬ先の杖',reading:'ころばぬさきのつえ',display:'転ばぬ先の（　）',
+ choices:['杖','傘','靴','石'],answer:0,
+ explain:'失敗しないように、前もって用心し準備しておくことのたとえ。',meaningShort:'前もって用心し準備しておくこと'},
+{tier:'標準',qtype:'fill',proverb:'急がば回れ',reading:'いそがばまわれ',display:'急がば（　）',
+ choices:['回れ','走れ','止まれ','進め'],answer:0,
+ explain:'急ぐときほど、危険な近道より安全で確実な方法を選んだ方がよいという意味。',meaningShort:'急ぐときほど安全確実な方法を選ぶこと'},
+{tier:'標準',qtype:'fill',proverb:'一寸の虫にも五分の魂',reading:'いっすんのむしにもごぶのたましい',display:'一寸の虫にも（　）分の魂',
+ choices:['五','三','十','一'],answer:0,
+ explain:'どんなに小さく弱い者にも、それ相応の意地や考えがあるということ。',meaningShort:'小さく弱い者にもそれ相応の意地があること'},
+{tier:'標準',qtype:'fill',proverb:'蛙の子は蛙',reading:'かえるのこはかえる',display:'蛙の子は（　）',
+ choices:['蛙','魚','おたまじゃくし','亀'],answer:0,
+ explain:'子は結局のところ、親に似るものだということ。',meaningShort:'子は親に似るものだということ'},
+{tier:'標準',qtype:'usage',proverb:'出る杭は打たれる',reading:'でるくいはうたれる',
+ display:'クラスで一番目立つ子は、才能があるのに、いつも誰かに悪口を言われている。この場面にぴったりのことわざは？',
+ choices:['出る杭は打たれる','鬼の目にも涙','蓼食う虫も好き好き','桃栗三年柿八年'],answer:0,
+ explain:'才能や勢いのある者は、ねたまれたり非難されたりしやすいことを表す「出る杭は打たれる」がぴったり。',meaningShort:'才能や勢いのある者はねたまれやすい'},
+{tier:'標準',qtype:'usage',proverb:'石橋を叩いて渡る',reading:'いしばしをたたいてわたる',
+ display:'旅行に出発する前に、忘れ物がないか荷物を何度も確認した。この場面にぴったりのことわざは？',
+ choices:['石橋を叩いて渡る','急がば回れ','泣き面に蜂','出る杭は打たれる'],answer:0,
+ explain:'丈夫な石橋でも叩いて安全を確かめてから渡るように、用心の上にも用心を重ねて物事を行うことのたとえ。',meaningShort:'用心の上にも用心を重ねること'},
+{tier:'標準',qtype:'usage',proverb:'猫の手も借りたい',reading:'ねこのてもかりたい',
+ display:'文化祭の前日、やることが多すぎて、誰でもいいから手伝ってほしいと思うほど忙しかった。この場面にぴったりのことわざは？',
+ choices:['猫の手も借りたい','蓼食う虫も好き好き','泣き面に蜂','桃栗三年柿八年'],answer:0,
+ explain:'猫の手でも借りたいと思うほど、非常に忙しいことのたとえ。',meaningShort:'非常に忙しいこと'},
+
+/* ===== 上級 15問 ===== */
+{tier:'上級',qtype:'meaning',proverb:'虎穴に入らずんば虎子を得ず',reading:'こけつにいらずんばこじをえず',display:'虎穴に入らずんば虎子を得ず',
+ choices:['危険を冒さなければ、大きな成果や価値のあるものは得られないということ','虎は穴の中で子育てをする動物だということ','危険なことは絶対に避けるべきだということ','虎に近づくと必ず危険な目にあうということ'],answer:0,
+ explain:'虎の子を得るには虎の穴に入る危険を冒さねばならないことから、リスクを取らなければ大きな成果は得られないという意味。',meaningShort:'危険を冒さねば大きな成果は得られない'},
+{tier:'上級',qtype:'meaning',proverb:'木を見て森を見ず',reading:'きをみてもりをみず',display:'木を見て森を見ず',
+ choices:['細かい部分にとらわれて、物事の全体を見失ってしまうこと','森に行ったら木の種類をよく観察すべきだということ','木も森もどちらも大切に扱うべきだということ','遠くから見るとよく分からないということ'],answer:0,
+ explain:'一本一本の木ばかり見ていると森全体の姿を見失うことから、細部にこだわりすぎて全体を見失うことのたとえ。',meaningShort:'細部にとらわれ全体を見失うこと'},
+{tier:'上級',qtype:'meaning',proverb:'千里の道も一歩から',reading:'せんりのみちもいっぽから',display:'千里の道も一歩から',
+ choices:['どんな大きな仕事も、小さな一歩の積み重ねから始まるということ','長い道のりは一気に進むべきだということ','千里先まで見通せる目を持つべきだということ','歩くことは健康によいということ'],answer:0,
+ explain:'どんなに遠い千里の道のりも、最初の一歩から始まることから、大きな目標も小さな積み重ねから始まるという意味。',meaningShort:'大きな仕事も小さな一歩から始まる'},
+{tier:'上級',qtype:'meaning',proverb:'溺れる者は藁をもつかむ',reading:'おぼれるものはわらをもつかむ',display:'溺れる者は藁をもつかむ',
+ choices:['危機に陥ると、頼りにならないものにさえすがろうとするということ','水泳が得意な人は藁を使って練習するということ','藁は水に浮くので便利な道具だということ','困っている人を見たら必ず助けるべきだということ'],answer:0,
+ explain:'溺れている人はわずかな藁にさえすがろうとすることから、追い詰められると頼りにならないものにも頼ろうとすることのたとえ。',meaningShort:'追い詰められると何にでもすがろうとすること'},
+{tier:'上級',qtype:'meaning',proverb:'羹に懲りて膾を吹く',reading:'あつものにこりてなますをふく',display:'羹に懲りて膾を吹く',
+ choices:['一度の失敗にこりて、必要以上に用心深くなりすぎること','熱い料理は冷ましてから食べるべきだということ','料理は失敗しながら上手になっていくということ','一度失敗したら二度と挑戦しないほうがよいということ'],answer:0,
+ explain:'熱い吸い物でやけどした人が、冷たい膾まで吹いて冷まそうとすることから、過度に用心深くなることのたとえ。',meaningShort:'一度の失敗で必要以上に用心深くなること'},
+{tier:'上級',qtype:'meaning',proverb:'破竹の勢い',reading:'はちくのいきおい',display:'破竹の勢い',
+ choices:['勢いが激しく、とどめることができない様子','竹はまっすぐ育つものだということ','何事もゆっくり進めるのがよいということ','一度折れた竹は元に戻らないということ'],answer:0,
+ explain:'竹は最初の一節を割ると勢いよく最後まで割れることから、止められないほどの勢いのたとえ。',meaningShort:'とどめられないほどの激しい勢い'},
+{tier:'上級',qtype:'meaning',proverb:'濡れ手で粟',reading:'ぬれてであわ',display:'濡れ手で粟',
+ choices:['苦労せずに、多くの利益を簡単に得ること','手を洗ってから食事をするべきだということ','粟という穀物は水に弱いということ','苦労してこそ得られるものに価値があるということ'],answer:0,
+ explain:'濡れた手で粟をつかむとたくさんくっついてくることから、苦労せず利益を得ることのたとえ。',meaningShort:'苦労せず多くの利益を得ること'},
+{tier:'上級',qtype:'meaning',proverb:'紺屋の白袴',reading:'こうやのしろばかま',display:'紺屋の白袴',
+ choices:['他人のことに忙しくて、自分自身のことがおろそかになってしまうこと','紺屋（染物屋）は白い服しか作らないということ','仕事は色鮮やかな方がよいということ','自分のことを最優先にするべきだということ'],answer:0,
+ explain:'染物屋が忙しくて自分の袴を染める暇がなく、白いままでいることから、他人のことに忙しく自分のことは後回しになることのたとえ。',meaningShort:'他人のことに忙しく自分のことは後回し'},
+{tier:'上級',qtype:'fill',proverb:'玉に瑕',reading:'たまにきず',display:'玉に（　）',
+ choices:['瑕','花','石','光'],answer:0,
+ explain:'「玉に瑕」は、ほとんど完璧だが、わずかに欠点があることのたとえ。「瑕」は「きず」と読む。',meaningShort:'ほとんど完璧だがわずかに欠点があること'},
+{tier:'上級',qtype:'fill',proverb:'会うは別れの始め',reading:'あうはわかれのはじめ',display:'会うは（　）の始め',
+ choices:['別れ','出会い','喧嘩','旅'],answer:0,
+ explain:'出会った者はいつか必ず別れる時が来る、という人の世の常を表すことわざ。',meaningShort:'出会った者はいつか必ず別れが来ること'},
+{tier:'上級',qtype:'fill',proverb:'五十歩百歩',reading:'ごじっぽひゃっぽ',display:'五十歩（　）歩',
+ choices:['百','十','千','二十'],answer:0,
+ explain:'少しの違いはあっても、本質的には同じであることのたとえ。',meaningShort:'多少の違いはあっても本質は同じ'},
+{tier:'上級',qtype:'fill',proverb:'一を聞いて十を知る',reading:'いちをきいてじゅうをしる',display:'一を聞いて（　）を知る',
+ choices:['十','百','五','二'],answer:0,
+ explain:'物事の一部を聞いただけで、全体を理解できるほど賢いことのたとえ。',meaningShort:'一部を聞いただけで全体を理解できる賢さ'},
+{tier:'上級',qtype:'usage',proverb:'百聞は一見に如かず',reading:'ひゃくぶんはいっけんにしかず',
+ display:'写真で見た水族館の話をいくら聞いても実感がわかなかったが、実際に行ってみたら想像以上にすごかった。この場面にぴったりのことわざは？',
+ choices:['百聞は一見に如かず','隣の芝生は青い','木を見て森を見ず','玉に瑕'],answer:0,
+ explain:'何度も話を聞くより、自分の目で一度見る方がよく分かるということ。',meaningShort:'人から聞くより自分の目で見る方がよく分かる'},
+{tier:'上級',qtype:'usage',proverb:'隣の芝生は青い',reading:'となりのしばふはあおい',
+ display:'クラスの友達のスマホが自分のものよりずっと新しく見えて、うらやましくなった。この場面にぴったりのことわざは？',
+ choices:['隣の芝生は青い','玉に瑕','会うは別れの始め','溺れる者は藁をもつかむ'],answer:0,
+ explain:'自分の庭より隣の庭の芝生の方が青々として見えることから、他人のものをうらやましく感じることのたとえ。',meaningShort:'他人のものは自分のものよりよく見える'},
+{tier:'上級',qtype:'usage',proverb:'虎の威を借る狐',reading:'とらのいをかるきつね',
+ display:'生徒会長の友達だからといって、いつも威張って先生の名前を出して人に指図してくる同級生がいる。この場面にぴったりのことわざは？',
+ choices:['虎の威を借る狐','五十歩百歩','会うは別れの始め','玉に瑕'],answer:0,
+ explain:'狐が虎の威光を借りていばるように、実力のない者が権力ある者の力を利用していばることのたとえ。',meaningShort:'権力ある者の力を利用していばること'}
+];
+
+/* ---------------- state ---------------- */
+let QUESTION_BANK = [];
+let currentQuiz = [];
+let currentIndex = 0;
+let score = 0;
+let wrongList = [];
+let lastWrongList = [];
+let locked = false;
+let isRetry = false;
+let statsByTier = {};
+let statsByType = {};
+let editingIndex = -1;
+
+/* ---------------- storage ---------------- */
+function loadQuestionBank(){
+  try{
+    const raw = localStorage.getItem(STORAGE_QUESTIONS);
+    if(raw){ QUESTION_BANK = JSON.parse(raw); return; }
+  }catch(e){}
+  QUESTION_BANK = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
+  saveQuestionBank();
+}
+function saveQuestionBank(){
+  localStorage.setItem(STORAGE_QUESTIONS, JSON.stringify(QUESTION_BANK));
+}
+function loadHistory(){
+  try{
+    const raw = localStorage.getItem(STORAGE_HISTORY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function saveHistory(list){
+  localStorage.setItem(STORAGE_HISTORY, JSON.stringify(list));
 }
 
-function startQuiz(){
-  loadQuestionBank();
-  QUESTIONS = buildSession();
-  if(QUESTIONS.length === 0){
-    alert('問題がありません。管理画面から問題を追加してください。');
+/* ---------------- helpers ---------------- */
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---------------- quiz flow ---------------- */
+function startQuiz(tierFilter){
+  let pool = QUESTION_BANK.slice();
+  if(tierFilter && tierFilter !== 'all'){
+    pool = pool.filter(q => q.tier === tierFilter);
+  }
+  shuffle(pool);
+  currentQuiz = pool.slice(0, Math.min(15, pool.length));
+  if(currentQuiz.length === 0){
+    alert('この難易度の問題がまだありません。「問題管理」から追加してください。');
     return;
   }
-  current = 0; score = 0; missed = [];
-  tierScores = {"基礎":{c:0,t:0}, "標準":{c:0,t:0}, "上級":{c:0,t:0}, "至難":{c:0,t:0}};
-  categoryScores = {"意味":{c:0,t:0}, "慣用句":{c:0,t:0}, "四字熟語":{c:0,t:0}, "対義語":{c:0,t:0}, "難読語":{c:0,t:0}};
-  showScreen(quizEl);
-  folioEl.textContent = "診断中";
+  currentIndex = 0; score = 0; wrongList = []; locked = false; isRetry = false;
+  resetStats();
+  buildDots();
+  showScreen('screen-quiz');
   renderQuestion();
+}
+function retryWrong(){
+  if(lastWrongList.length === 0) return;
+  currentQuiz = shuffle(lastWrongList.slice());
+  currentIndex = 0; score = 0; wrongList = []; locked = false; isRetry = true;
+  resetStats();
+  buildDots();
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+function resetStats(){
+  statsByTier = { '基礎':{correct:0,total:0}, '標準':{correct:0,total:0}, '上級':{correct:0,total:0} };
+  statsByType = { meaning:{correct:0,total:0}, fill:{correct:0,total:0}, usage:{correct:0,total:0} };
+}
+function buildDots(){
+  const wrap = document.getElementById('q-dots');
+  wrap.innerHTML = '';
+  currentQuiz.forEach((_,i)=>{
+    const d = document.createElement('span');
+    d.className = 'dot';
+    d.id = 'dot-'+i;
+    wrap.appendChild(d);
+  });
+}
+function updateDotsCurrent(){
+  document.querySelectorAll('.dot').forEach(d=>d.classList.remove('current'));
+  const cur = document.getElementById('dot-'+currentIndex);
+  if(cur) cur.classList.add('current');
 }
 
 function renderQuestion(){
-  answered = false;
-  const q = QUESTIONS[current];
-  tierScores[q.tier].t++;
-  const cat = q.category || "意味";
-  if(!categoryScores[cat]) categoryScores[cat] = {c:0,t:0};
-  categoryScores[cat].t++;
+  const q = currentQuiz[currentIndex];
+  const tierBadge = document.getElementById('q-tier-badge');
+  tierBadge.textContent = TIER_LABEL[q.tier] || q.tier;
+  tierBadge.className = 'badge tier-badge tier-'+q.tier;
+  const typeBadge = document.getElementById('q-type-badge');
+  typeBadge.textContent = TYPE_LABEL[q.qtype] || q.qtype;
 
-  document.getElementById('tierTag').textContent = q.tier;
-  document.getElementById('qCount').textContent = `問${current+1} / ${QUESTIONS.length}`;
-  document.getElementById('progressFill').style.width = `${(current/QUESTIONS.length)*100}%`;
-  document.getElementById('qPrompt').textContent = CATEGORY_PROMPTS[cat] || CATEGORY_PROMPTS["意味"];
-  document.getElementById('headword').textContent = q.word;
-  const yomiEl = document.getElementById('yomi');
-  if(cat === "難読語"){
-    yomiEl.textContent = '（読み方はまだ内緒）';
-    yomiEl.classList.add('yomi-pending');
+  document.getElementById('q-count').textContent = (currentIndex+1) + ' / ' + currentQuiz.length + ' もん' + (isRetry ? '（解きなおし）' : '');
+  document.getElementById('q-prompt').textContent = TYPE_PROMPT[q.qtype] || '';
+
+  const headwordEl = document.getElementById('q-headword');
+  headwordEl.textContent = q.display;
+  const yomiEl = document.getElementById('q-yomi');
+  if(q.qtype === 'usage'){
+    headwordEl.classList.add('scenario');
+    yomiEl.style.display = 'none';
   } else {
-    yomiEl.textContent = q.yomi;
-    yomiEl.classList.remove('yomi-pending');
+    headwordEl.classList.remove('scenario');
+    if(q.qtype === 'meaning' && q.reading){
+      yomiEl.textContent = 'よみ：' + q.reading;
+      yomiEl.style.display = 'block';
+    } else {
+      yomiEl.style.display = 'none';
+    }
   }
 
-  const explainEl = document.getElementById('explain');
-  explainEl.classList.remove('show');
-  explainEl.textContent = q.explain;
-
-  const nextBtn = document.getElementById('nextBtn');
-  nextBtn.classList.remove('show');
-  nextBtn.textContent = current === QUESTIONS.length - 1 ? '結果を見る →' : '次の言葉へ →';
-
-  const stamp = document.getElementById('stamp');
-  stamp.classList.remove('show');
-
-  const choicesEl = document.getElementById('choices');
+  const choicesEl = document.getElementById('q-choices');
   choicesEl.innerHTML = '';
-  const marks = ['A','B','C','D'];
-  q.choices.forEach((c, i) => {
+  q.choices.forEach((c,i)=>{
     const btn = document.createElement('button');
     btn.className = 'choice';
-    btn.innerHTML = `<span class="mark">${marks[i]}</span><span>${c}</span>`;
-    btn.onclick = () => selectAnswer(i, btn);
+    btn.innerHTML = '<span class="mark">'+String.fromCharCode(65+i)+'</span><span class="ctext">'+escapeHtml(c)+'</span>';
+    btn.addEventListener('click', ()=>selectChoice(i));
     choicesEl.appendChild(btn);
   });
+
+  const explainEl = document.getElementById('q-explain');
+  explainEl.classList.remove('show');
+  explainEl.innerHTML = '';
+  document.getElementById('q-next-wrap').classList.remove('show');
+  const stampEl = document.getElementById('q-stamp');
+  stampEl.classList.remove('show','correct','wrong');
+  stampEl.textContent = '';
+
+  locked = false;
+  updateDotsCurrent();
 }
 
-function selectAnswer(i, btnEl){
-  if(answered) return;
-  answered = true;
-  const q = QUESTIONS[current];
-  const cat = q.category || "意味";
-  const correct = i === q.answer;
-
-  document.querySelectorAll('.choice').forEach((b, idx) => {
+function selectChoice(i){
+  if(locked) return;
+  locked = true;
+  const q = currentQuiz[currentIndex];
+  const correct = (i === q.answer);
+  const buttons = Array.from(document.getElementById('q-choices').children);
+  buttons.forEach((b,idx)=>{
     b.disabled = true;
     if(idx === q.answer) b.classList.add('correct');
     else if(idx === i) b.classList.add('wrong');
   });
 
-  if(correct){
-    score++;
-    tierScores[q.tier].c++;
-    if(!categoryScores[cat]) categoryScores[cat] = {c:0,t:0};
-    categoryScores[cat].c++;
-    document.getElementById('stamp').classList.add('show');
-  } else {
-    missed.push(q);
-  }
+  const stampEl = document.getElementById('q-stamp');
+  stampEl.textContent = correct ? '🎉 せいかい！' : '😢 ざんねん';
+  stampEl.classList.add('show', correct ? 'correct' : 'wrong');
 
-  if(cat === "難読語"){
-    const yomiEl = document.getElementById('yomi');
-    yomiEl.textContent = `読み：${q.yomi}`;
-    yomiEl.classList.remove('yomi-pending');
-  }
+  if(correct){ score++; } else { wrongList.push(q); }
 
-  document.getElementById('explain').classList.add('show');
-  const nextBtnEl = document.getElementById('nextBtn');
-  nextBtnEl.classList.add('show');
-  nextBtnEl.focus();
+  statsByTier[q.tier].total++;
+  if(correct) statsByTier[q.tier].correct++;
+  statsByType[q.qtype].total++;
+  if(correct) statsByType[q.qtype].correct++;
+
+  const explainEl = document.getElementById('q-explain');
+  let readingLine = (q.reading && q.qtype !== 'usage') ? ('<b>よみ：'+escapeHtml(q.reading)+'</b><br>') : '';
+  explainEl.innerHTML = readingLine + escapeHtml(q.explain);
+  explainEl.classList.add('show');
+
+  document.getElementById('q-next-wrap').classList.add('show');
+
+  const dot = document.getElementById('dot-'+currentIndex);
+  if(dot){ dot.classList.remove('current'); dot.classList.add(correct ? 'correct' : 'wrong'); }
 }
 
 function nextQuestion(){
-  current++;
-  if(current >= QUESTIONS.length){
-    showResult();
-  } else {
+  currentIndex++;
+  if(currentIndex < currentQuiz.length){
     renderQuestion();
+  } else {
+    finishQuiz();
   }
 }
 
-function showResult(){
-  showScreen(resultEl);
-  folioEl.textContent = "巻末";
-  document.getElementById('progressFill').style.width = '100%';
+function rankFor(pct){
+  if(pct >= 90) return {emoji:'🏆', title:'ことわざ名人', desc:'素晴らしい！ことわざをしっかり使いこなせています。この調子でどんどん新しいことわざも覚えていこう。'};
+  if(pct >= 70) return {emoji:'🥇', title:'ことわざ有段者', desc:'よく知っていますね！苦手なところを見直せば、名人はすぐそこです。'};
+  if(pct >= 50) return {emoji:'🥈', title:'ことわざ見習い', desc:'半分以上はバッチリ！まちがえた問題をもう一度解いて、力をつけていこう。'};
+  if(pct >= 30) return {emoji:'🥉', title:'ことわざひよこ', desc:'まだまだ伸びしろたっぷり！何度も挑戦して、ことわざ博士を目指そう。'};
+  return {emoji:'🌱', title:'ことわざのタネ', desc:'ここからがスタート！焦らず一つずつ覚えていけば、きっとぐんぐん育つよ。'};
+}
 
-  const total = QUESTIONS.length;
-  const pct = score / total;
-  let title, desc;
+function finishQuiz(){
+  lastWrongList = wrongList.slice();
+  const total = currentQuiz.length;
+  const pct = total > 0 ? Math.round((score/total)*100) : 0;
+  const rank = rankFor(pct);
 
-  if(pct >= 0.9){
-    title = "語彙の達人";
-    desc = "至難レベルの言葉まで的確に見抜きました。新聞の論説文や評論でも語彙に困ることはほとんどないでしょう。";
-  } else if(pct >= 0.7){
-    title = "手練れの読み手";
-    desc = "標準〜上級レベルの語彙をしっかり押さえています。日常のニュースや文章読解では困る場面は少ないはずです。";
-  } else if(pct >= 0.5){
-    title = "堅実な語彙力";
-    desc = "基礎〜標準レベルは安定していますが、上級語彙にはまだ伸びしろがあります。";
-  } else {
-    title = "これからが伸びしろ";
-    desc = "基礎的な語彙から着実に固めていく段階です。焦らず一歩ずつステップアップしましょう。";
-  }
+  document.getElementById('r-emoji').textContent = rank.emoji;
+  document.getElementById('r-title').textContent = rank.title;
+  document.getElementById('r-pct').textContent = pct + '%';
+  document.getElementById('r-score').textContent = total + '問中 ' + score + '問正解' + (isRetry ? '（解きなおしラウンド）' : '');
+  document.getElementById('r-desc').textContent = rank.desc;
 
-  document.getElementById('rankTitle').textContent = title;
-  document.getElementById('scoreLine').textContent = `正答 ${score} / ${total} 問`;
-  document.getElementById('rankDesc').textContent = desc;
-
-  // ---- 推定語彙年齢・語彙偏差値・推定語彙数の算出 ----
-  const displayScore = Math.round(pct * 100); // 0〜100点換算
-
-  // 得点帯ごとの「推定語彙年齢」ラベル
-  let ageLabel;
-  if(displayScore <= 15) ageLabel = "小学校低学年相当";
-  else if(displayScore <= 25) ageLabel = "小学校高学年相当";
-  else if(displayScore <= 35) ageLabel = "中学生相当";
-  else if(displayScore <= 50) ageLabel = "高校生相当";
-  else if(displayScore <= 65) ageLabel = "大学生相当";
-  else if(displayScore <= 80) ageLabel = "20代社会人相当";
-  else if(displayScore <= 90) ageLabel = "30〜40代社会人相当";
-  else if(displayScore <= 96) ageLabel = "語彙上級者相当";
-  else ageLabel = "語彙マスター";
-  document.getElementById('diagAge').textContent = ageLabel;
-
-  // 語彙偏差値（想定される一般社会人の平均正答率・ばらつきをもとに算出）
-  const MEAN = 0.62, STD = 0.16;
-  let hensachi = Math.round(50 + ((pct - MEAN) / STD) * 10);
-  hensachi = Math.max(25, Math.min(85, hensachi));
-  document.getElementById('diagHensachi').textContent = hensachi;
-
-  // 推定語彙数（得点帯ごとの目安を線形補間して算出）
-  const VOCAB_ANCHORS = [
-    { p: 7.5,  w: 2500  },
-    { p: 20.5, w: 4500  },
-    { p: 30.5, w: 7000  },
-    { p: 43,   w: 10500 },
-    { p: 58,   w: 14000 },
-    { p: 73,   w: 18500 },
-    { p: 85.5, w: 25000 },
-    { p: 93.5, w: 35000 },
-    { p: 98.5, w: 48000 }
-  ];
-  let vocabCount = VOCAB_ANCHORS[VOCAB_ANCHORS.length - 1].w;
-  if(displayScore <= VOCAB_ANCHORS[0].p){
-    vocabCount = VOCAB_ANCHORS[0].w;
-  } else if(displayScore >= VOCAB_ANCHORS[VOCAB_ANCHORS.length - 1].p){
-    vocabCount = VOCAB_ANCHORS[VOCAB_ANCHORS.length - 1].w;
-  } else {
-    for(let i = 0; i < VOCAB_ANCHORS.length - 1; i++){
-      const a = VOCAB_ANCHORS[i], b = VOCAB_ANCHORS[i + 1];
-      if(displayScore >= a.p && displayScore <= b.p){
-        const ratio = (displayScore - a.p) / (b.p - a.p);
-        vocabCount = Math.round((a.w + (b.w - a.w) * ratio) / 100) * 100;
-        break;
-      }
-    }
-  }
-  document.getElementById('diagVocabCount').textContent = `約${vocabCount.toLocaleString('ja-JP')}語`;
-
-  // ---- 得意・苦手カテゴリーの算出 ----
-  const catOrder = ["意味","慣用句","四字熟語","対義語","難読語"];
-  const catRates = catOrder
-    .map(cat => {
-      const s = categoryScores[cat] || {c:0,t:0};
-      return { cat, rate: s.t > 0 ? s.c / s.t : null, t: s.t };
-    })
-    .filter(x => x.t > 0);
-
-  const skillColsEl = document.getElementById('skillCols');
-  const goodEl = document.getElementById('skillGood');
-  const weakEl = document.getElementById('skillWeak');
-
-  if(catRates.length === 0){
-    skillColsEl.style.display = 'none';
-  } else {
-    skillColsEl.style.display = 'grid';
-    const good = catRates.filter(x => x.rate >= 0.7).sort((a,b) => b.rate - a.rate);
-    const weak = catRates.filter(x => x.rate < 0.7).sort((a,b) => a.rate - b.rate);
-
-    goodEl.innerHTML = good.length > 0
-      ? good.map(x => `<li class="good">${x.cat}</li>`).join('')
-      : '<li style="color:var(--nezumi); list-style:none;">該当なし</li>';
-    weakEl.innerHTML = weak.length > 0
-      ? weak.map(x => `<li class="weak">${x.cat}</li>`).join('')
-      : '<li style="color:var(--nezumi); list-style:none;">該当なし</li>';
-  }
-
-  const tbEl = document.getElementById('tierBreakdown');
-  tbEl.innerHTML = '';
-  Object.keys(tierScores).forEach(tier => {
-    const {c, t} = tierScores[tier];
-    if(t === 0) return;
+  const tierRows = document.getElementById('r-tier-rows');
+  tierRows.innerHTML = '';
+  ['基礎','標準','上級'].forEach(t=>{
+    const s = statsByTier[t];
+    if(s.total === 0) return;
+    const p = Math.round((s.correct/s.total)*100);
     const row = document.createElement('div');
-    row.className = 'tb-row';
-    row.innerHTML = `<span>${tier}</span><b>${c} / ${t}</b>`;
-    tbEl.appendChild(row);
+    row.className = 'tier-row';
+    row.innerHTML = '<span class="lbl">'+TIER_LABEL[t]+'</span>'+
+      '<span class="bar"><span class="bar-fill" style="width:'+p+'%; background:'+
+      (t==='基礎'?'var(--grass)':t==='標準'?'var(--sun-deep)':'var(--berry)')+';"></span></span>'+
+      '<span class="num">'+s.correct+'/'+s.total+'</span>';
+    tierRows.appendChild(row);
   });
-
-  const missedListEl = document.getElementById('missedList');
-  if(missed.length === 0){
-    missedListEl.innerHTML = '全問正解でした。見直す言葉はありません。';
-  } else {
-    missedListEl.innerHTML = missed.map(q =>
-      `<div><span class="w">${q.word}（${q.yomi}）</span> — ${q.choices[q.answer]}</div>`
-    ).join('');
+  if(tierRows.innerHTML === ''){
+    tierRows.innerHTML = '<p class="empty-note">データがありません</p>';
   }
 
-  // 履歴に保存
-  saveHistoryRecord(score, total, title);
-}
-
-function restart(){
-  showScreen(introEl);
-  folioEl.textContent = "巻頭";
-}
-
-/* ---- 診断履歴機能 ---- */
-function saveHistoryRecord(score, total, title){
-  const history = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
-  const now = new Date();
-  const dateStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-  
-  history.unshift({
-    date: dateStr,
-    score: score,
-    total: total,
-    title: title
+  const goodEl = document.getElementById('r-good');
+  const weakEl = document.getElementById('r-weak');
+  goodEl.innerHTML = ''; weakEl.innerHTML = '';
+  let goodCount = 0, weakCount = 0;
+  ['meaning','fill','usage'].forEach(t=>{
+    const s = statsByType[t];
+    if(s.total === 0) return;
+    const acc = s.correct / s.total;
+    const li = document.createElement('li');
+    li.textContent = TYPE_LABEL_SHORT[t] + '（' + s.correct + '/' + s.total + '）';
+    if(acc >= 0.6){ goodEl.appendChild(li); goodCount++; }
+    else { weakEl.appendChild(li.cloneNode(true)); weakCount++; }
   });
+  if(goodCount === 0) goodEl.innerHTML = '<li class="empty">まだ十分なデータがありません</li>';
+  if(weakCount === 0) weakEl.innerHTML = '<li class="empty">苦手タイプなし！お見事✨</li>';
 
-  // 最大20件まで保持
-  if(history.length > 20) history.pop();
-  localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(history));
+  const missedWrap = document.getElementById('r-missed-wrap');
+  const missedEl = document.getElementById('r-missed');
+  missedEl.innerHTML = '';
+  if(wrongList.length === 0){
+    missedWrap.style.display = 'none';
+  } else {
+    missedWrap.style.display = 'block';
+    const seen = new Set();
+    wrongList.forEach(q=>{
+      if(seen.has(q.proverb)) return;
+      seen.add(q.proverb);
+      const item = document.createElement('div');
+      item.className = 'missed-item';
+      item.innerHTML = '<div class="mp">'+escapeHtml(q.proverb)+'</div><div class="mm">'+escapeHtml(q.meaningShort||'')+'</div>';
+      missedEl.appendChild(item);
+    });
+  }
+
+  const retryBtn = document.getElementById('r-retry-btn');
+  if(lastWrongList.length > 0){
+    retryBtn.style.display = 'inline-flex';
+    retryBtn.textContent = '✏️ まちがえた問題だけ解きなおす（' + lastWrongList.length + '問）';
+  } else {
+    retryBtn.style.display = 'none';
+  }
+
+  saveHistoryRecord(score, total, pct, rank.title, isRetry);
+  showScreen('screen-result');
 }
 
+function backToIntro(){
+  showScreen('screen-intro');
+}
+
+/* ---------------- history ---------------- */
+function saveHistoryRecord(score, total, pct, title, retry){
+  const list = loadHistory();
+  list.unshift({
+    date: new Date().toISOString(),
+    score, total, pct, title,
+    mode: retry ? 'まちがえ直し' : 'チャレンジ'
+  });
+  saveHistory(list.slice(0, 50));
+}
 function openHistory(){
-  showScreen(historyEl);
-  folioEl.textContent = "履歴";
-  renderHistoryList();
-}
-
-function renderHistoryList(){
-  const history = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
-  const container = document.getElementById('historyList');
-  
-  if(history.length === 0){
-    container.innerHTML = '<div style="font-size:13px; color:var(--nezumi); padding:20px 0;">まだ診断履歴がありません。</div>';
-    return;
+  const list = loadHistory();
+  const wrap = document.getElementById('hist-list');
+  wrap.innerHTML = '';
+  if(list.length === 0){
+    wrap.innerHTML = '<p class="empty-note">まだきろくがありません。クイズに挑戦してみよう！</p>';
+  } else {
+    list.forEach(h=>{
+      const d = new Date(h.date);
+      const dateStr = (d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+      const row = document.createElement('div');
+      row.className = 'hist-item';
+      row.innerHTML = '<div><div class="hl">'+dateStr+'・'+h.mode+'・'+h.title+'</div><div>'+h.score+' / '+h.total+'問正解</div></div><div class="hp">'+h.pct+'%</div>';
+      wrap.appendChild(row);
+    });
   }
-
-  container.innerHTML = history.map(h => `
-    <div class="history-card">
-      <div>
-        <div class="history-date">${h.date}</div>
-        <div class="history-title">${h.title}</div>
-      </div>
-      <div class="history-score">${h.score} / ${h.total} 問正解</div>
-    </div>
-  `).join('');
+  showScreen('screen-history');
 }
-
 function clearHistory(){
-  if(confirm('すべての診断履歴を消去しますか？')){
-    localStorage.removeItem(STORAGE_KEY_HISTORY);
-    renderHistoryList();
-  }
+  if(!confirm('きろくを全部消します。よろしいですか？')) return;
+  saveHistory([]);
+  openHistory();
 }
 
-/* ---- 管理画面機能 (一覧・個別編集・削除・書き出し) ---- */
+/* ---------------- admin ---------------- */
 function openAdmin(){
-  loadQuestionBank();
-  showScreen(adminEl);
-  folioEl.textContent = "管理";
-  updateAdminStats();
-  renderQuestionList();
+  switchAdminTab('list');
+  showScreen('screen-admin');
 }
-
-function switchAdminTab(tabName){
-  document.querySelectorAll('.admin-tabs .tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  if(tabName === 'list'){
-    document.querySelectorAll('.tab-btn')[0].classList.add('active');
-    document.getElementById('tabList').classList.add('active');
-  } else {
-    document.querySelectorAll('.tab-btn')[1].classList.add('active');
-    document.getElementById('tabImport').classList.add('active');
-  }
+function switchAdminTab(tab){
+  document.getElementById('tab-list').classList.toggle('active', tab==='list');
+  document.getElementById('tab-import').classList.toggle('active', tab==='import');
+  document.getElementById('admin-pane-list').style.display = tab==='list' ? 'block':'none';
+  document.getElementById('admin-pane-import').style.display = tab==='import' ? 'block':'none';
+  if(tab==='list') renderAdminList();
 }
+function renderAdminList(){
+  const stats = document.getElementById('admin-stats');
+  const counts = {'基礎':0,'標準':0,'上級':0};
+  QUESTION_BANK.forEach(q=>counts[q.tier] = (counts[q.tier]||0)+1);
+  stats.innerHTML = ['基礎','標準','上級'].map(t=>
+    '<div class="astat"><b>'+(counts[t]||0)+'</b><span>'+TIER_LABEL[t]+'</span></div>'
+  ).join('');
 
-function updateAdminStats(){
-  const counts = { "基礎": 0, "標準": 0, "上級": 0, "至難": 0 };
-  const catCounts = { "意味": 0, "慣用句": 0, "四字熟語": 0, "対義語": 0, "難読語": 0 };
-  QUESTION_BANK.forEach(q => {
-    if(counts[q.tier] !== undefined) counts[q.tier]++;
-    const cat = q.category || "意味";
-    if(catCounts[cat] !== undefined) catCounts[cat]++;
+  const listEl = document.getElementById('admin-qlist');
+  listEl.innerHTML = '';
+  QUESTION_BANK.forEach((q,idx)=>{
+    const row = document.createElement('div');
+    row.className = 'qrow';
+    row.innerHTML = '<div><div class="qmeta">'+TIER_LABEL[q.tier]+'・'+TYPE_LABEL_SHORT[q.qtype]+'</div><div class="qword">'+escapeHtml(q.proverb)+'</div></div>'+
+      '<div class="qbtns"><button onclick="openEditModal('+idx+')">編集</button><button onclick="deleteQuestion('+idx+')">削除</button></div>';
+    listEl.appendChild(row);
   });
-  document.getElementById('bankStats').innerHTML = 
-    `<b>登録済み問題数: 全 ${QUESTION_BANK.length} 問</b><br>` +
-    `（基礎: ${counts["基礎"]} / 標準: ${counts["標準"]} / 上級: ${counts["上級"]} / 至難: ${counts["至難"]}）<br>` +
-    `（意味: ${catCounts["意味"]} / 慣用句: ${catCounts["慣用句"]} / 四字熟語: ${catCounts["四字熟語"]} / 対義語: ${catCounts["対義語"]} / 難読語: ${catCounts["難読語"]}）`;
 }
-
-function renderQuestionList(){
-  const container = document.getElementById('questionList');
-  if(QUESTION_BANK.length === 0){
-    container.innerHTML = '<div style="padding:16px; font-size:13px; color:var(--nezumi);">問題がありません。</div>';
-    return;
-  }
-
-  container.innerHTML = QUESTION_BANK.map((q, idx) => `
-    <div class="q-item">
-      <div class="q-item-info">
-        <div class="q-item-title">[${q.tier}/${q.category || "意味"}] ${q.word} （${q.yomi}）</div>
-        <div class="q-item-sub">正解: ${q.choices[q.answer]}</div>
-      </div>
-      <div class="q-item-actions">
-        <button class="action-btn" onclick="openEditModal(${idx})">編集</button>
-        <button class="action-btn" style="color:var(--shu);" onclick="deleteQuestion(${idx})">削除</button>
-      </div>
-    </div>
-  `).join('');
-}
-
 function deleteQuestion(idx){
-  if(confirm(`「${QUESTION_BANK[idx].word}」を削除しますか？`)){
-    QUESTION_BANK.splice(idx, 1);
-    saveQuestionBank();
-    updateAdminStats();
-    renderQuestionList();
-  }
+  if(!confirm('この問題を削除しますか？')) return;
+  QUESTION_BANK.splice(idx,1);
+  saveQuestionBank();
+  renderAdminList();
 }
-
-/* 個別編集モーダル */
 function openEditModal(idx){
-  document.getElementById('editIndex').value = idx;
-  if(idx === -1){
-    document.getElementById('modalTitle').textContent = '新しい問題を追加';
-    document.getElementById('editTier').value = '標準';
-    document.getElementById('editCategory').value = '意味';
-    document.getElementById('editWord').value = '';
-    document.getElementById('editYomi').value = '';
-    document.getElementById('editChoice0').value = '';
-    document.getElementById('editChoice1').value = '';
-    document.getElementById('editChoice2').value = '';
-    document.getElementById('editChoice3').value = '';
-    document.getElementById('editAnswer').value = '0';
-    document.getElementById('editExplain').value = '';
-  } else {
-    const q = QUESTION_BANK[idx];
-    document.getElementById('modalTitle').textContent = '問題を編集';
-    document.getElementById('editTier').value = q.tier;
-    document.getElementById('editCategory').value = q.category || '意味';
-    document.getElementById('editWord').value = q.word;
-    document.getElementById('editYomi').value = q.yomi;
-    document.getElementById('editChoice0').value = q.choices[0] || '';
-    document.getElementById('editChoice1').value = q.choices[1] || '';
-    document.getElementById('editChoice2').value = q.choices[2] || '';
-    document.getElementById('editChoice3').value = q.choices[3] || '';
-    document.getElementById('editAnswer').value = q.answer;
-    document.getElementById('editExplain').value = q.explain || '';
-  }
-  document.getElementById('editModal').classList.add('active');
+  editingIndex = idx;
+  const q = QUESTION_BANK[idx];
+  document.getElementById('edit-tier').value = q.tier;
+  document.getElementById('edit-qtype').value = q.qtype;
+  document.getElementById('edit-proverb').value = q.proverb;
+  document.getElementById('edit-reading').value = q.reading || '';
+  document.getElementById('edit-display').value = q.display;
+  document.getElementById('edit-c0').value = q.choices[0];
+  document.getElementById('edit-c1').value = q.choices[1];
+  document.getElementById('edit-c2').value = q.choices[2];
+  document.getElementById('edit-c3').value = q.choices[3];
+  document.getElementById('edit-answer').value = String(q.answer);
+  document.getElementById('edit-explain').value = q.explain;
+  document.getElementById('edit-meaning').value = q.meaningShort || '';
+  document.getElementById('edit-modal').classList.add('show');
 }
-
 function closeEditModal(){
-  document.getElementById('editModal').classList.remove('active');
+  document.getElementById('edit-modal').classList.remove('show');
+  editingIndex = -1;
 }
-
 function saveQuestionEdit(){
-  const idx = parseInt(document.getElementById('editIndex').value, 10);
-  const word = document.getElementById('editWord').value.trim();
-  const yomi = document.getElementById('editYomi').value.trim();
-  const c0 = document.getElementById('editChoice0').value.trim();
-  const c1 = document.getElementById('editChoice1').value.trim();
-  const c2 = document.getElementById('editChoice2').value.trim();
-  const c3 = document.getElementById('editChoice3').value.trim();
-
-  if(!word || !yomi || !c0 || !c1 || !c2 || !c3){
-    alert('見出し語、読み、選択肢4つをすべて入力してください。');
+  if(editingIndex < 0) return;
+  const q = {
+    tier: document.getElementById('edit-tier').value,
+    qtype: document.getElementById('edit-qtype').value,
+    proverb: document.getElementById('edit-proverb').value.trim(),
+    reading: document.getElementById('edit-reading').value.trim(),
+    display: document.getElementById('edit-display').value.trim(),
+    choices: [
+      document.getElementById('edit-c0').value.trim(),
+      document.getElementById('edit-c1').value.trim(),
+      document.getElementById('edit-c2').value.trim(),
+      document.getElementById('edit-c3').value.trim()
+    ],
+    answer: parseInt(document.getElementById('edit-answer').value,10),
+    explain: document.getElementById('edit-explain').value.trim(),
+    meaningShort: document.getElementById('edit-meaning').value.trim()
+  };
+  if(!q.proverb || !q.display || q.choices.some(c=>!c) || !q.explain){
+    alert('すべての必須項目を入力してください。');
     return;
   }
-
-  const newQ = {
-    tier: document.getElementById('editTier').value,
-    category: document.getElementById('editCategory').value,
-    word: word,
-    yomi: yomi,
-    choices: [c0, c1, c2, c3],
-    answer: parseInt(document.getElementById('editAnswer').value, 10),
-    explain: document.getElementById('editExplain').value.trim()
-  };
-
-  if(idx === -1){
-    QUESTION_BANK.push(newQ);
-  } else {
-    QUESTION_BANK[idx] = newQ;
-  }
-
+  QUESTION_BANK[editingIndex] = q;
   saveQuestionBank();
   closeEditModal();
-  updateAdminStats();
-  renderQuestionList();
+  renderAdminList();
 }
-
-/* データ書き出し (エクスポート) */
-function exportQuestions(){
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(QUESTION_BANK, null, 2));
-  const downloadAnchor = document.createElement('a');
-  const dateStr = new Date().toISOString().slice(0,10);
-  downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", `vocab_questions_${dateStr}.json`);
-  document.body.appendChild(downloadAnchor);
-  downloadAnchor.click();
-  downloadAnchor.remove();
+function toggleNewFields(){ /* placeholder for future per-type field hints */ }
+function addNewQuestion(){
+  const q = {
+    tier: document.getElementById('new-tier').value,
+    qtype: document.getElementById('new-qtype').value,
+    proverb: document.getElementById('new-proverb').value.trim(),
+    reading: document.getElementById('new-reading').value.trim(),
+    display: document.getElementById('new-display').value.trim(),
+    choices: [
+      document.getElementById('new-c0').value.trim(),
+      document.getElementById('new-c1').value.trim(),
+      document.getElementById('new-c2').value.trim(),
+      document.getElementById('new-c3').value.trim()
+    ],
+    answer: parseInt(document.getElementById('new-answer').value,10),
+    explain: document.getElementById('new-explain').value.trim(),
+    meaningShort: document.getElementById('new-meaning').value.trim()
+  };
+  if(!q.proverb || !q.display || q.choices.some(c=>!c) || !q.explain){
+    alert('すべての必須項目を入力してください。');
+    return;
+  }
+  QUESTION_BANK.push(q);
+  saveQuestionBank();
+  ['new-proverb','new-reading','new-display','new-c0','new-c1','new-c2','new-c3','new-explain','new-meaning'].forEach(id=>{
+    document.getElementById(id).value = '';
+  });
+  alert('問題を追加しました！');
+  switchAdminTab('list');
 }
-
-/* JSON一括追加 */
-function addQuestionsFromJSON(){
-  const input = document.getElementById('jsonInput').value.trim();
-  if(!input){ alert('JSONコードを入力してください。'); return; }
-  try {
-    const newItems = JSON.parse(input);
-    if(!Array.isArray(newItems)){ alert('配列形式 [ ... ] で入力してください。'); return; }
-
-    let addedCount = 0;
-    newItems.forEach(item => {
-      if(item.word && item.yomi && Array.isArray(item.choices) && item.choices.length === 4 && item.answer !== undefined){
+function exportQuestionsJSON(){
+  const data = JSON.stringify(QUESTION_BANK, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'kotowaza-questions.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function importQuestionsJSON(){
+  const raw = document.getElementById('import-json').value.trim();
+  if(!raw) return;
+  try{
+    const arr = JSON.parse(raw);
+    if(!Array.isArray(arr)) throw new Error('配列形式で入力してください');
+    let added = 0;
+    arr.forEach(q=>{
+      if(q && q.proverb && q.display && Array.isArray(q.choices) && q.choices.length===4 && q.explain){
         QUESTION_BANK.push({
-          tier: item.tier || "標準",
-          category: item.category || "意味",
-          word: item.word,
-          yomi: item.yomi,
-          choices: item.choices,
-          answer: Number(item.answer),
-          explain: item.explain || ""
+          tier: q.tier || '標準',
+          qtype: q.qtype || 'meaning',
+          proverb: q.proverb,
+          reading: q.reading || '',
+          display: q.display,
+          choices: q.choices,
+          answer: typeof q.answer==='number' ? q.answer : 0,
+          explain: q.explain,
+          meaningShort: q.meaningShort || ''
         });
-        addedCount++;
+        added++;
       }
     });
-
-    if(addedCount > 0){
-      saveQuestionBank();
-      alert(`${addedCount}問 追加・保存しました！`);
-      document.getElementById('jsonInput').value = '';
-      updateAdminStats();
-      renderQuestionList();
-      switchAdminTab('list');
-    } else {
-      alert('有効な問題データが見つかりませんでした。');
-    }
-  } catch(e) {
-    alert('JSONのパースに失敗しました:\n' + e.message);
+    saveQuestionBank();
+    document.getElementById('import-json').value = '';
+    alert(added + '問を取り込みました！');
+    switchAdminTab('list');
+  }catch(e){
+    alert('JSONの形式が正しくありません：' + e.message);
   }
 }
-
 function resetDefaultQuestions(){
-  if(confirm('追加・編集した問題を初期状態に戻しますか？')){
-    localStorage.removeItem(STORAGE_KEY_QUESTIONS);
-    QUESTION_BANK = [...DEFAULT_QUESTIONS];
-    updateAdminStats();
-    renderQuestionList();
-  }
+  if(!confirm('問題を初期状態（45問）にリセットします。追加・編集した内容は消えます。よろしいですか？')) return;
+  QUESTION_BANK = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
+  saveQuestionBank();
+  renderAdminList();
 }
 
-// 初期実行
+/* ---------------- init ---------------- */
 loadQuestionBank();
 </script>
-
 </body>
 </html>
