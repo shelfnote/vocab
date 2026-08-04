@@ -462,7 +462,8 @@ body::after{
         きみの<b>ことわざ力</b>をチェックしよう！<br>
         意味・穴埋め・使い方の3タイプで出題するよ。
       </p>
-      <div class="level-grid">
+      <p id="bank-loading" style="text-align:center; font-size:12.5px; color:var(--sub); margin:-6px 0 14px;">📡 問題データを読み込み中…</p>
+      <div class="level-grid" id="level-grid" style="opacity:.4; pointer-events:none; transition:opacity .25s ease;">
         <div class="level-btn lv1" onclick="startQuiz('基礎')">
           <span class="emoji">🌱</span>
           <span class="lv">きそ Lv.1</span>
@@ -569,11 +570,15 @@ body::after{
       </div>
 
       <div id="admin-pane-list">
+        <p id="bank-source-note" style="font-size:12px; color:var(--sub); background:var(--bg); border-radius:12px; padding:10px 12px; margin-bottom:14px; line-height:1.7;"></p>
         <div class="admin-stats" id="admin-stats"></div>
         <div class="qlist" id="admin-qlist"></div>
       </div>
 
       <div id="admin-pane-import" style="display:none;">
+        <div class="intro-note" style="margin-bottom:18px;">
+          🌐 <b>GitHubなどで公開するとき：</b>下の「questions.json として書き出す」で保存したファイルを、この html ファイルと<b>同じフォルダ</b>にアップロードしてください。次にページを開いたとき、そのファイルの内容が自動で読み込まれます（ここでの追加・編集はこのタブを開いている間だけ有効で、公開には反映されません）。
+        </div>
         <div class="field">
           <label>難易度</label>
           <select id="new-tier">
@@ -632,9 +637,10 @@ body::after{
           <button class="btn btn-outline btn-block" style="margin-top:8px;" onclick="importQuestionsJSON()">取り込む</button>
         </div>
         <div class="field-row" style="margin-top:24px;">
-          <button class="btn btn-outline" onclick="exportQuestionsJSON()">📤 全問題をJSON出力</button>
-          <button class="btn btn-outline" onclick="resetDefaultQuestions()">🔄 初期状態にもどす</button>
+          <button class="btn btn-outline" onclick="exportQuestionsJSON()">📤 questions.json として書き出す</button>
+          <button class="btn btn-outline" onclick="resetDefaultQuestions()">🔄 組み込みデータにリセット</button>
         </div>
+        <button class="btn btn-ghost btn-block" style="margin-top:8px;" onclick="reloadFromServer()">☁️ questions.json を読み込みなおす（今の編集は破棄）</button>
       </div>
     </section>
 
@@ -690,8 +696,8 @@ body::after{
    ことわざチャレンジ！ - 中学生向け語彙クイズツール
    ========================================================= */
 
-const STORAGE_QUESTIONS = 'kotowaza_challenge_questions_v1';
 const STORAGE_HISTORY   = 'kotowaza_challenge_history_v1';
+const QUESTIONS_JSON_URL = 'questions.json'; // このhtmlと同じフォルダに置くと自動で読み込まれる
 
 const TIER_LABEL = { '基礎':'Lv.1 きそ', '標準':'Lv.2 ひょうじゅん', '上級':'Lv.3 じょうきゅう' };
 const TYPE_LABEL = { meaning:'🔍 意味', fill:'✏️ 穴埋め', usage:'🎬 使い方' };
@@ -867,18 +873,44 @@ let isRetry = false;
 let statsByTier = {};
 let statsByType = {};
 let editingIndex = -1;
+let bankSource = 'default'; // 'json'（questions.jsonから読み込み）| 'default'（組み込みデータ）
 
-/* ---------------- storage ---------------- */
-function loadQuestionBank(){
+/* ---------------- storage ----------------
+   問題データは questions.json（このhtmlと同じフォルダに置いたファイル）を最優先で読み込む。
+   見つからない場合や file:// で直接開いていて読み込めない場合は、組み込みの初期データを使う。
+   管理画面での追加・編集はブラウザには保存されず、そのタブを開いている間だけ有効。
+   公開用に反映するには「questions.json として書き出す」→ そのファイルをhtmlと同じ場所にアップロードする。
+------------------------------------------------- */
+async function loadQuestionBank(){
   try{
-    const raw = localStorage.getItem(STORAGE_QUESTIONS);
-    if(raw){ QUESTION_BANK = JSON.parse(raw); return; }
-  }catch(e){}
+    const res = await fetch(QUESTIONS_JSON_URL, {cache:'no-store'});
+    if(res.ok){
+      const data = await res.json();
+      if(Array.isArray(data) && data.length > 0 && data.every(isValidQuestion)){
+        QUESTION_BANK = data;
+        bankSource = 'json';
+        return;
+      }
+    }
+  }catch(e){
+    // questions.json が無い／読み込めない（file://で直接開いている場合など）→ 組み込みデータにフォールバック
+  }
   QUESTION_BANK = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
-  saveQuestionBank();
+  bankSource = 'default';
+}
+function isValidQuestion(q){
+  return q && q.proverb && q.display && Array.isArray(q.choices) && q.choices.length === 4 && q.explain;
 }
 function saveQuestionBank(){
-  localStorage.setItem(STORAGE_QUESTIONS, JSON.stringify(QUESTION_BANK));
+  // 現在の仕様では自動保存しない（questions.json をアップロードして公開する運用のため）。
+  // 呼び出し箇所との互換性のために残してある空関数。
+}
+function reloadFromServer(){
+  if(!confirm('今のタブでの編集内容を破棄して、questions.json を読み込みなおします。よろしいですか？')) return;
+  loadQuestionBank().then(()=>{
+    renderAdminList();
+    alert(bankSource === 'json' ? 'questions.json を読み込みなおしました。' : 'questions.json が見つからなかったので、組み込みデータを表示しています。');
+  });
 }
 function loadHistory(){
   try{
@@ -1181,6 +1213,12 @@ function switchAdminTab(tab){
   if(tab==='list') renderAdminList();
 }
 function renderAdminList(){
+  const sourceNote = document.getElementById('bank-source-note');
+  if(sourceNote){
+    sourceNote.innerHTML = bankSource === 'json'
+      ? '☁️ 現在、同じフォルダの <code>questions.json</code> を読み込んで表示しています。'
+      : '📦 現在、<code>questions.json</code> が見つからなかったため、組み込みの初期データ（45問）を表示しています。';
+  }
   const stats = document.getElementById('admin-stats');
   const counts = {'基礎':0,'標準':0,'上級':0};
   QUESTION_BANK.forEach(q=>counts[q.tier] = (counts[q.tier]||0)+1);
@@ -1287,7 +1325,7 @@ function exportQuestionsJSON(){
   const blob = new Blob([data], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'kotowaza-questions.json';
+  a.href = url; a.download = 'questions.json';
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -1323,14 +1361,21 @@ function importQuestionsJSON(){
   }
 }
 function resetDefaultQuestions(){
-  if(!confirm('問題を初期状態（45問）にリセットします。追加・編集した内容は消えます。よろしいですか？')) return;
+  if(!confirm('問題を組み込みの初期データ（45問）にリセットします。このタブでの追加・編集は消えます。よろしいですか？')) return;
   QUESTION_BANK = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
-  saveQuestionBank();
+  bankSource = 'default';
   renderAdminList();
 }
 
 /* ---------------- init ---------------- */
-loadQuestionBank();
+async function initApp(){
+  await loadQuestionBank();
+  const loadingEl = document.getElementById('bank-loading');
+  if(loadingEl) loadingEl.style.display = 'none';
+  const gridEl = document.getElementById('level-grid');
+  if(gridEl){ gridEl.style.opacity = '1'; gridEl.style.pointerEvents = 'auto'; }
+}
+initApp();
 </script>
 </body>
 </html>
