@@ -873,6 +873,8 @@ let isRetry = false;
 let statsByTier = {};
 let statsByType = {};
 let editingIndex = -1;
+let currentChoiceOrder = [0,1,2,3]; // 表示中の選択肢の並び替え（元のchoices配列のインデックス）
+let currentAnswerPos = 0; // シャッフル後の正解の位置
 let bankSource = 'default'; // 'json'（questions.jsonから読み込み）| 'default'（組み込みデータ）
 
 /* ---------------- storage ----------------
@@ -1015,10 +1017,14 @@ function renderQuestion(){
 
   const choicesEl = document.getElementById('q-choices');
   choicesEl.innerHTML = '';
-  q.choices.forEach((c,i)=>{
+  // 選択肢の表示順をシャッフルし、シャッフル後の正解位置を記録しておく
+  const order = shuffle([0,1,2,3]);
+  currentChoiceOrder = order;
+  currentAnswerPos = order.indexOf(q.answer);
+  order.forEach((origIdx, i)=>{
     const btn = document.createElement('button');
     btn.className = 'choice';
-    btn.innerHTML = '<span class="mark">'+String.fromCharCode(65+i)+'</span><span class="ctext">'+escapeHtml(c)+'</span>';
+    btn.innerHTML = '<span class="mark">'+String.fromCharCode(65+i)+'</span><span class="ctext">'+escapeHtml(q.choices[origIdx])+'</span>';
     btn.addEventListener('click', ()=>selectChoice(i));
     choicesEl.appendChild(btn);
   });
@@ -1039,11 +1045,11 @@ function selectChoice(i){
   if(locked) return;
   locked = true;
   const q = currentQuiz[currentIndex];
-  const correct = (i === q.answer);
+  const correct = (i === currentAnswerPos);
   const buttons = Array.from(document.getElementById('q-choices').children);
   buttons.forEach((b,idx)=>{
     b.disabled = true;
-    if(idx === q.answer) b.classList.add('correct');
+    if(idx === currentAnswerPos) b.classList.add('correct');
     else if(idx === i) b.classList.add('wrong');
   });
 
